@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="/customer">Home</a>
+        <a href="/customer/cart">Cart</a>
+    </div>
+        
+    <div class="w3-container">
+        <table class="w3-table-all w3-hoverable">
+            <thead>
+            <tr class="w3-light-grey">
+                <th> </th>
+                <th>Name of food</th>
+                <th>Type of food</th>
+                <th>Cost</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <Tbody>
+                <h2><%= title %></h2>
+                <% for(let i=0; i < data.length; i++) { %>
+                    <tr>
+                        <td><%= i + 1 %></td>
+                        <td><%= data[i].TP_TEN %></td>
+                        <td><%= data[i].TP_LOAI %></td>
+                        <td><%= data[i].TP_GIA %></td>
+                        <td class="">
+                            <form action="/add-food-to-cart/<%=data[i].TP_MA%>" method="get">
+                                <button type="submit">Add to cart</button>
+                            </form>
+                        </td>
+                    </tr>
+                 <% } %>    
+            </Tbody>
+        </table>
+    </div>
+          
+    <img src="/img/keqing.png" alt="keqing">
+</body>
+</html>

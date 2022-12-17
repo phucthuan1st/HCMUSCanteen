@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Food</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="update-food-container">
+        <form action="/update-food" method="post">
+            <div>
+                <label for="">Name of food: </label>
+                <input type="text" name="TP_TEN" id="" value="<%= data.TP_TEN %>">
+            </div>
+            <div>
+                <label for="">Type of food: </label>
+                <input type="text" name="TP_LOAI" id="" value="<%= data.TP_LOAI %>">
+            </div>
+            <div>
+                <label for="">Cost of food: </label>
+                <input type="text" name="TP_GIA" id="" value="<%= data.TP_GIA %>">
+            </div>
+            <input type="text" name="TP_MA" id="" value="<%= data.TP_MA %>" hidden>
+            <div>
+                <button class="btn-save-edit-food" type="submit">Save</button>
+            </div>
+        </form> 
+    </div>
+
+    <div>
+        <img src="/img/hutao3.png" alt="hutao" style="width: 100%;">
+    </div>
+</body>
+</html>
