@@ -17,7 +17,7 @@ let getHomepage = async (req, res) => {
             return res.redirect('/admin');
         }
         else{
-            return res.render('homePage.ejs');  
+            return res.render('login/homePage.ejs');  
         }
     } catch (error) {
          console.log("ERROR: ", error);
@@ -36,7 +36,7 @@ let getHomeCustomer  = async (req, res) => {
             await Connection.connect();
             let data_food = await Connection.request().query('SELECT * FROM dbo.THUCPHAM');
             data = data_food.recordset;
-            return res.render('customer.ejs', {data: data, title: "FOOD"});
+            return res.render('customer/customer.ejs', {data: data, title: "FOOD"});
         }
         else if (LOAITK === 'ADMIN'.trim()){
             return res.redirect('/admin');
@@ -65,7 +65,7 @@ let getHomeCart = async (req, res) => {
             data.forEach((object) => {
                 totalPrice += object.GH_SOLUONG * object.GH_TONGTIEN;
             });
-            return res.render('cart.ejs', {data: data, title: "Cart", totalPrice: totalPrice});
+            return res.render('customer/cart.ejs', {data: data, title: "Cart", totalPrice: totalPrice});
         }
         else if (LOAITK === 'ADMIN'.trim()){
             return res.redirect('/admin');
@@ -98,7 +98,7 @@ let editFood = async (req, res) => {
     await Connection.connect();
     let data_food = Connection.request().query(`SELECT * FROM dbo.THUCPHAM WHERE TP_MA = ${TP_MA}`);
     data = (await data_food).recordset;
-    return res.render('updateFood.ejs', {data: data[0]})
+    return res.render('admin/updateFood.ejs', {data: data[0]})
 }
 
 let updateFood = async (req, res) => {
@@ -133,7 +133,7 @@ let getPageCart = async (req, res) => {
     carts.forEach((object) => {
         totalPrice += object.number * object.TP_GIA;
     });
-    return res.render('cart.ejs', {data: carts, title: "Cart", totalPrice: totalPrice})
+    return res.render('customer/cart.ejs', {data: carts, title: "Cart", totalPrice: totalPrice})
 }
 
 let getHomeEditFood = async (req, res) => {
@@ -141,19 +141,19 @@ let getHomeEditFood = async (req, res) => {
     await Connection.connect();
     let data_food = await Connection.request().query('SELECT * FROM dbo.THUCPHAM');
     data = data_food.recordset;
-    return res.render('editFood.ejs', {data: data, title: "FOOD"});
+    return res.render('admin/editFood.ejs', {data: data, title: "FOOD"});
 }
 
 let getHomeManagement = async (req, res) => {
-    return res.render('management.ejs');
+    return res.render('admin/management.ejs');
 }
 
 let getHomeSignUp = async (req, res) => {
-    return res.render('signUp.ejs');
+    return res.render('login/signUp.ejs');
 }
 
 let getHomeRegister = async (req, res) => {
-    return res.render('register.ejs');
+    return res.render('login/register.ejs');
 }
 
 let CreateUser = async (req, res) => {
@@ -176,7 +176,7 @@ let getHomeLogin = async (req, res) => {
             return res.redirect('/admin');
         }
         else{
-            return res.render('login.ejs');
+            return res.render('login/login.ejs');
         }
     } catch (error) {
          console.log("ERROR: ", error);
