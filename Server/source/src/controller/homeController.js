@@ -58,13 +58,14 @@ let getHomeCart = async (req, res) => {
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
             await Connection.connect();
-            let data_cart = Connection.request().query(`SELECT TP.TP_TEN, TP.TP_LOAI, GH.GH_SOLUONG, GH.GH_TONGTIEN FROM dbo.GIOHANG GH, dbo.THUCPHAM TP WHERE GH.TP_MA = TP.TP_MA AND KH_MA = ${MA}`);
+            let data_cart = Connection.request().query(`SELECT GH.TP_MA, GH.TP_MA ,TP.TP_TEN, TP.TP_LOAI, GH.GH_SOLUONG, GH.GH_TONGTIEN FROM dbo.GIOHANG GH, dbo.THUCPHAM TP WHERE GH.TP_MA = TP.TP_MA AND KH_MA = ${MA}`);
             let data = (await data_cart).recordset;
             console.log(data);
             let totalPrice = 0;
             data.forEach((object) => {
                 totalPrice += object.GH_SOLUONG * object.GH_TONGTIEN;
             });
+            req.session.totalPrice = totalPrice;
             return res.render('customer/cart.ejs', {data: data, title: "Cart", totalPrice: totalPrice});
         }
         else if (LOAITK === 'ADMIN'.trim()){
@@ -190,7 +191,6 @@ let loginUser = async (req, res) => {
         await Connection.connect();
         let data_login = Connection.request().query(`EXEC dbo.sp_xulyDangNhap @UN = '${UNAME}', @PW = '${PWD}'`);
         let data = (await data_login).recordset;
-        console.log(data);
         if(data.length === 1) {
             let loaitk = data[0].LOAITK.trim();
             if(loaitk === 'NHANVIEN'.trim()) {
@@ -223,6 +223,60 @@ let loginUser = async (req, res) => {
     }
 }
 
+let reduceNumberOfFood = async (req, res) => {
+    let {ID, LOAITK, MA} = req.session;
+    await Connection.connect();
+    let {TP_MA} = req.body;
+    let data_cart= Connection.request().query(`SELECT * FROM dbo.GIOHANG WHERE KH_MA = ${MA} AND TP_MA = ${TP_MA}`);
+    let data = (await data_cart).recordset;
+    if(data[0].GH_SOLUONG > 1) {
+        Connection.request().query(`UPDATE dbo.GIOHANG SET GH_SOLUONG = ${data[0].GH_SOLUONG - 1} WHERE KH_MA = ${MA} AND TP_MA = ${data[0].TP_MA}`);
+    }
+    else {
+        Connection.request().query(`DELETE dbo.GIOHANG  WHERE KH_MA = ${MA} AND TP_MA = ${data[0].TP_MA}`);
+    }
+    return res.redirect('/customer/cart');
+}
+
+let raisesNumberOfFood = async (req, res) => {
+    let {ID, LOAITK, MA} = req.session;
+    await Connection.connect();
+    let {TP_MA} = req.body;
+    let data_cart= Connection.request().query(`SELECT * FROM dbo.GIOHANG WHERE KH_MA = ${MA} AND TP_MA = ${TP_MA}`);
+    let data = (await data_cart).recordset;
+    Connection.request().query(`UPDATE dbo.GIOHANG SET GH_SOLUONG = ${data[0].GH_SOLUONG + 1} WHERE KH_MA = ${MA} AND TP_MA = ${data[0].TP_MA}`);
+    return res.redirect('/customer/cart');
+}
+
+let getHomePayment = async (req, res) => {
+    try {
+        let {ID, LOAITK, MA} = req.session;
+        console.log(MA)
+        if(LOAITK === 'NHANVIEN'.trim()) {
+            return res.redirect('/employee');
+        }
+        else if (LOAITK === 'KHACHHANG'.trim()) {
+            return res.render('customer/payment.ejs', {totalPrice: req.session.totalPrice});
+        }
+        else if (LOAITK === 'ADMIN'.trim()){
+            return res.redirect('/admin');
+        }
+        else{
+            return res.redirect('/');  
+        }
+    } catch (error) {
+         console.log("ERROR: ", error);
+    }
+}
+
+let handlePayment = async (req, res) => {
+    let {ID, LOAITK, MA} = req.session;
+    await Connection.connect();
+    Connection.request().query(`EXEC dbo.sp_datHang @KH_MA = ${MA}, @HINHTHUCTHANHTOAN = N'Thanh toán trực tuyến'`);
+    return res.render('customer/receipt.ejs');
+}
+
+
 module.exports = {
     getHomepage,
     getHomeCart,
@@ -239,5 +293,9 @@ module.exports = {
     getHomeRegister,
     CreateUser,
     getHomeLogin,
-    loginUser
+    loginUser,
+    raisesNumberOfFood,
+    reduceNumberOfFood,
+    getHomePayment,
+    handlePayment
 }

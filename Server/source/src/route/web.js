@@ -20,6 +20,10 @@ const initWebRoute = (app) =>{
     router.post('/create-user', homeController.CreateUser);
     router.get('/login', homeController.getHomeLogin);
     router.post('/login-user', homeController.loginUser);
+    router.post('/customer/cart/raises', homeController.raisesNumberOfFood);
+    router.post('/customer/cart/reduce', homeController.reduceNumberOfFood);
+    router.get('/customer/pay-bill', homeController.getHomePayment)
+    router.get('/customer/pay-bill/handle-momo', homeController.handlePayment)
     return app.use('/', router);
 }
 
