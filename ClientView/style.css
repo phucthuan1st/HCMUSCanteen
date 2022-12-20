@@ -1,0 +1,66 @@
+.logo {
+    display: block;
+    width: min(50vw, 30vh);
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    top: 30%;
+}
+
+.interFontText {
+    font-family: 'Inter';
+    font-style: bold;
+}
+
+#labelCanteen {
+    align-items: center;
+    text-align: center;
+    font-weight: 700;
+    font-size: min(4.5vw, 4.5wh);
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 4vh;
+}
+
+#labelContact {
+    align-items: center;
+    text-align: center;
+    font-weight: 700;
+    font-size: min(4.5vw, 4.5wh);
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+}
+
+button.loginSelection {
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    border: none;
+    display: inline-block;
+    width: 70vw;
+    height: 5vh;
+    font-size: min(4.5vw, 4.5wh);
+    font-weight: 700;
+    align-items: center;
+    text-align: center;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+li.loginButton {
+    left: 50%;
+    list-style-type: none;
+    padding-bottom: 3vh;
+}
+
+ul.contactInfo {
+    width: 70%;
+    border: none;
+    justify-content: center;
+}
+
+ul li.interFontText {
+    background-color: #C1C1C1;
+    left: 50%;
+    text-align: left;
+    list-style: none;
+}
