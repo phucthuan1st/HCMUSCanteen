@@ -31,10 +31,23 @@ let getHomeCustomer  = async (req, res) => {
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
             let data = [];
-            await Connection.connect();
-            let data_food = await Connection.request().query('SELECT * FROM dbo.THUCPHAM');
-            data = data_food.recordset;
-            return res.render('ClientView/home.ejs', {data: data, title: "FOOD"});
+            fetch('http://localhost:1111/api/food', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify()
+            })
+            .then(response => response.json())
+            .then(response => {
+                if(response["message"] == 1) {
+                    data = response["data"];
+                    return res.render('ClientView/home.ejs', {data: data});
+                } else {
+
+                }
+            })
         }
         else if (LOAITK === 'ADMIN'.trim()){
             return res.redirect('/admin');
@@ -55,16 +68,25 @@ let getHomeCart = async (req, res) => {
             return res.redirect('/employee');
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
-            await Connection.connect();
-            let data_cart = Connection.request().query(`SELECT GH.TP_MA, GH.TP_MA ,TP.TP_TEN, TP.TP_LOAI, GH.GH_SOLUONG, GH.GH_TONGTIEN FROM dbo.GIOHANG GH, dbo.THUCPHAM TP WHERE GH.TP_MA = TP.TP_MA AND KH_MA = ${MA}`);
-            let data = (await data_cart).recordset;
-            console.log(data);
-            let totalPrice = 0;
-            data.forEach((object) => {
-                totalPrice += object.GH_SOLUONG * object.GH_TONGTIEN;
-            });
-            req.session.totalPrice = totalPrice;
-            return res.render('customer/cart.ejs', {data: data, title: "Cart", totalPrice: totalPrice});
+            let data = [];
+            fetch('http://localhost:1111/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"MSSV": MA})
+            })
+            .then(response => response.json())
+            .then(response => {
+                if(response["message"] == 1) {
+                    data = response["data"];
+                    console.log(data);
+                    return res.render('ClientView/cart.ejs', {data: data});
+                } else {
+                    
+                }
+            })
         }
         else if (LOAITK === 'ADMIN'.trim()){
             return res.redirect('/admin');
@@ -128,11 +150,7 @@ let addFoodToCart = async (req, res) => {
 }
 
 let getPageCart = async (req, res) => {
-    let totalPrice = 0;
-    carts.forEach((object) => {
-        totalPrice += object.number * object.TP_GIA;
-    });
-    return res.render('customer/cart.ejs', {data: carts, title: "Cart", totalPrice: totalPrice})
+    return res.render('ClientView/cart.ejs');
 }
 
 let getHomeEditFood = async (req, res) => {
