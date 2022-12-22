@@ -1,10 +1,8 @@
-import sql, { pool } from 'mssql/msnodesqlv8';
+const sql = require('mssql/msnodesqlv8');
 
 const sqlConfig = {
-    //   user: process.env.DB_USER,
-    //   password: process.env.DB_PWD,
+    server: 'PTHUAN-PC',
     database: 'DA_NMCNPM',
-    server: 'localhost',
     driver: "msnodesqlv8",
     options: {
         trustedConnection: true
