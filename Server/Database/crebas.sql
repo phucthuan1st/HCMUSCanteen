@@ -714,3 +714,107 @@ INSERT INTO TAIKHOAN (UNAME,PWD,LOAITK, MA) VALUES ('NV11', 1, 'NHANVIEN',1)
 INSERT INTO TAIKHOAN (UNAME,PWD,LOAITK, MA) VALUES ('NV12', 1, 'NHANVIEN',12)
 INSERT INTO TAIKHOAN (UNAME,PWD,LOAITK, MA) VALUES ('ADMIN1', 1, 'ADMIN', 1000)
 
+-- UPDATE HOA DON
+UPDATE HOADON
+SET KH_MSSV = '1'
+WHERE HD_MA = 1
+UPDATE HOADON
+SET KH_MSSV = '1'
+WHERE HD_MA = 2
+UPDATE HOADON
+SET KH_MSSV = '2'
+WHERE HD_MA = 2
+
+GO
+CREATE
+--ALTER
+PROC sp_reportOnDay
+	@ngay int,
+	@thang int,
+	@nam int
+AS 
+BEGIN TRANSACTION
+	BEGIN TRY
+	IF(@ngay IS NULL AND @thang IS NULL AND @nam IS NULL)
+	BEGIN
+    	RAISERROR(642, -1,-1, 'sp_reportOnDay NULL')
+    END
+	SELECT t.TP_TEN, SUM(c.CTDH_MA_DONGIA) AS 'GIA', SUM(c.CTDH_SOLUONG) AS 'SOLUONG' FROM HOADON h
+	JOIN CHITIETHOADON c ON h.HD_MA = c.HD_MA
+	JOIN THUCPHAM t ON c.TP_MA = t.TP_MA
+	WHERE DAY(h.HD_NGAYLAP) = @ngay AND MONTH(h.HD_NGAYLAP) = @thang AND YEAR(h.HD_NGAYLAP) = @nam
+	GROUP BY (t.TP_TEN)
+	END TRY
+	--Begin catch
+	BEGIN CATCH
+		RAISERROR(737, -1,-1, 'sp_reportOnDay Failed')
+	END CATCH
+COMMIT TRANSACTION
+GO
+
+exec sp_reportOnDay 22,12,2022
+
+CREATE
+--ALTER
+PROC sp_reportOnDayofEachEmployee
+	@manv int,
+	@ngay int,
+	@thang int,
+	@nam int
+AS 
+BEGIN TRANSACTION
+	BEGIN TRY
+	IF((@ngay IS NULL AND @thang IS NULL AND @nam IS NULL) OR (@manv IS NULL))
+	BEGIN
+    	RAISERROR(642, -1,-1, 'sp_reportOnDay NULL')
+    END
+
+	SELECT t.TP_TEN, SUM(c.CTDH_MA_DONGIA) AS 'GIA', SUM(c.CTDH_SOLUONG) AS 'SOLUONG' FROM HOADON h
+		JOIN CHITIETHOADON c ON h.HD_MA = c.HD_MA
+		JOIN THUCPHAM t ON c.TP_MA = t.TP_MA
+	WHERE 
+		DAY(h.HD_NGAYLAP) = @ngay 
+		AND MONTH(h.HD_NGAYLAP) = @thang 
+		AND YEAR(h.HD_NGAYLAP) = @nam
+		AND cast(@manv as NVARCHAR(20)) = h.KH_MSSV
+	GROUP BY (t.TP_TEN)
+	END TRY
+	--Begin catch
+	BEGIN CATCH
+		RAISERROR(737, -1,-1, 'sp_reportOnDay Failed')
+	END CATCH
+COMMIT TRANSACTION
+GO
+
+exec sp_reportOnDayofEachEmployee 1, 22,12,2022 -- Theo từng nhân viên
+
+CREATE
+--ALTER
+PROC sp_reportOnMonth
+	@thang int,
+	@nam int
+AS 
+BEGIN TRANSACTION
+	BEGIN TRY
+	IF( @thang IS NULL AND @nam IS NULL)
+	BEGIN
+    	RAISERROR(642, -1,-1, 'sp_reportOnMonth NULL')
+    END
+
+	SELECT t.TP_TEN, SUM(c.CTDH_MA_DONGIA) AS 'GIA', SUM(c.CTDH_SOLUONG) AS 'SOLUONG' FROM HOADON h
+		JOIN CHITIETHOADON c ON h.HD_MA = c.HD_MA
+		JOIN THUCPHAM t ON c.TP_MA = t.TP_MA
+	WHERE 
+		 MONTH(h.HD_NGAYLAP) = @thang 
+		AND YEAR(h.HD_NGAYLAP) = @nam
+	GROUP BY (t.TP_TEN)
+	END TRY
+	--Begin catch
+	BEGIN CATCH
+		RAISERROR(737, -1,-1, 'sp_reportOnMonth Failed')
+	END CATCH
+COMMIT TRANSACTION
+GO
+
+-- Bao cao theo thang
+exec sp_reportOnMonth 12, 2022
