@@ -147,6 +147,9 @@ TABLE TAIKHOAN
 )
 GO
 --------------------
+ALTER TABLE THUCPHAM 
+ADD UNIQUE (TP_TEN)
+GO 
 --CREATE
 ----ALTER
 ----DROP
@@ -752,7 +755,6 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
-exec sp_reportOnDay 22,12,2022
 
 CREATE
 --ALTER
@@ -786,7 +788,6 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
-exec sp_reportOnDayofEachEmployee 1, 22,12,2022 -- Theo từng nhân viên
 
 CREATE
 --ALTER
@@ -816,5 +817,125 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
--- Bao cao theo thang
-exec sp_reportOnMonth 12, 2022
+--Them mon an qua nau
+CREATE 
+--alter
+PROC sp_themMonAnQuaNau
+	@ten NVARCHAR(100),
+	@gia MONEY
+AS 
+BEGIN TRANSACTION
+	BEGIN TRY
+		IF(@ten IS NULL AND @gia IS NULL)
+		BEGIN
+        	RAISERROR(829, -1,-1, 'sp_themMonAnQuaNau NULL')
+			ROLLBACK
+			RETURN
+        END
+		INSERT INTO THUCPHAM (TP_TEN, TP_LOAI, TP_GIA) VALUES (@ten, N'Đồ nấu', @gia)
+		DECLARE @tpid INT
+		SELECT @tpid = t.TP_MA FROM THUCPHAM t WHERE t.TP_TEN = @ten
+		INSERT INTO THUC_AN_QUA_NAU (TP_MA, TP_TEN, TP_LOAI, TAQN_SOLUONGCONLAI, TP_GIA, TAQN_SOLUONGNAU) VALUES (@tpid, @ten, N'Đồ nấu', 100, @gia, 100);
+	END TRY
+	BEGIN CATCH
+		RAISERROR(829, -1,-1, 'sp_themMonAnQuaNau catch')
+			ROLLBACK
+			RETURN
+	END CATCH
+COMMIT TRANSACTION
+GO 
+
+-- them mat hang
+CREATE 
+--alter
+PROC sp_themMatHang
+	@ten NVARCHAR(100),
+	@gia MONEY,
+	@sl INT,
+	@nsx DATE,
+	@gianhap MONEY,
+	@hsd DATE
+AS 
+BEGIN TRANSACTION
+	BEGIN TRY
+		IF(@ten IS NULL AND @gia IS NULL AND @sl IS NULL AND @gianhap IS NULL AND @hsd IS NULL AND @nsx IS NULL)
+		BEGIN
+        	RAISERROR(861, -1,-1, 'sp_themMatHang NULL')
+			ROLLBACK
+			RETURN
+        END
+		INSERT INTO THUCPHAM (TP_TEN, TP_LOAI, TP_GIA) VALUES (@ten, N'Đồ ăn liền', @gia)
+		DECLARE @tpid INT
+		SELECT @tpid = t.TP_MA FROM THUCPHAM t WHERE t.TP_TEN = @ten
+		INSERT INTO MATHANG (TP_MA, TP_TEN, TP_LOAI, TP_GIA, MH_SOLUONGTON, MH_GIATIENNHAP, MH_NGAYSX, MH_HSD)
+		VALUES (@tpid, @ten, N'Đồ ăn liền', @gia, @sl, @gianhap, @nsx, @hsd)
+	END TRY
+	BEGIN CATCH
+		RAISERROR(872, -1,-1, 'sp_themMatHang catch')
+			ROLLBACK
+			RETURN
+	END CATCH
+COMMIT TRANSACTION
+GO 
+
+CREATE 
+--alter
+PROC sp_themDONNHAPHANG
+AS 
+BEGIN TRANSACTION
+	BEGIN TRY
+		DECLARE @time DATETIME
+		SET @time = GETDATE()
+		INSERT INTO DONNHAPHANG (DNH_NGAYDAT, DNH_TONGTIEN) VALUES (@time, 0)
+		DECLARE @id INT
+		SELECT @id = d.DNH_MA FROM DONNHAPHANG d WHERE d.DNH_NGAYDAT = @time
+		SELECT @id
+	END TRY
+	BEGIN CATCH
+		RAISERROR(890, -1,-1, 'sp_themDONNHAPHANG catch')
+			ROLLBACK
+			RETURN
+	END CATCH
+COMMIT TRANSACTION
+GO
+
+CREATE 
+--alter
+PROC sp_themChiTietDonNhapHang 
+	@ten NVARCHAR(100),
+	@giaban MONEY,
+	@sl INT,
+	@gianhap MONEY,
+	@ngaysx DATE,
+	@hsd DATE,
+	@id_dh int
+AS 
+BEGIN TRANSACTION
+	BEGIN TRY
+		IF(@ten IS NULL AND @giaban IS NULL AND @sl IS NULL AND @gianhap IS NULL AND @hsd IS NULL AND @nsx IS NULL)
+		BEGIN
+        	RAISERROR(861, -1,-1, 'sp_themMatHang NULL')
+			ROLLBACK
+			RETURN
+        END
+		DECLARE @idtp INT
+		IF EXISTS (SELECT * FROM MATHANG m WHERE m.TP_TEN = @ten)
+		BEGIN 
+			UPDATE MATHANG SET MH_SOLUONGTON = MH_SOLUONGTON + @sl
+			WHERE TP_TEN = @ten
+		END 
+		ELSE
+		BEGIN
+        	EXEC sp_themMatHang @ten, @giaban, @sl, @ngaysx, @gianhap, @hsd
+        END
+		SELECT @idtp = @idtp FROM MATHANG m WHERE TP_TEN = @ten
+		INSERT INTO CHITIETDONNHAPHANG (DNH_MA, TP_MA, CTDNH_SOLUONG, CTDNH_DONGIA)
+		VALUES (@id_dh, @idtp, @gianhap * @sl)
+	END TRY
+	BEGIN CATCH
+		RAISERROR(936, -1,-1, 'sp_themChiTietDonNhapHang catch')
+			ROLLBACK
+			RETURN
+	END CATCH
+COMMIT TRANSACTION
+GO 
