@@ -58,9 +58,8 @@ ul.contactInfo {
     justify-content: center;
 }
 
-ul li.interFontText {
+ul.contactInfo li.interFontText {
     background-color: #C1C1C1;
-    left: 50%;
     text-align: left;
     list-style: none;
 }
