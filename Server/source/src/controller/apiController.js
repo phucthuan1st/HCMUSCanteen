@@ -1,7 +1,7 @@
 import Connection from "../configs/connectDB";
 import session from 'express-session';
 
-let getFood = async (req, res) => {
+let getFood = async(req, res) => {
     try {
         await Connection.connect();
         Connection.request().query(`SELECT TP_MA, TP_TEN, TP_LOAI, TP_GIA, TP_IMGPATH FROM dbo.THUCPHAM`, (err, result) => {
@@ -10,13 +10,13 @@ let getFood = async (req, res) => {
                 return res.status(400).json({
                     message: "0", //True
                 });   
+            } else {
+                return res.status(200).json({
+                    message: "1", //True
+                    data: result.recordset
+                });
             }
-            return res.status(200).json({
-            message: "1", //True
-            });
-            // console.log(err);
         });
-        
     } catch (error) {
         return res.status(400).json({
             message: "-2", //True
@@ -26,8 +26,8 @@ let getFood = async (req, res) => {
 
 let handleLogin = async(req, res) => {
     try {
-        let {UNAME, PWD} = req.body;
-        if(UNAME && PWD) {
+        let { UNAME, PWD } = req.body;
+        if (UNAME && PWD) {
             await Connection.connect();
             Connection.request().query(`SELECT MA, LOAITK FROM TAIKHOAN WHERE UNAME = N'${UNAME}' AND PWD = N'${PWD}'`, (err, result) => {
                 if(err) {
@@ -40,21 +40,19 @@ let handleLogin = async(req, res) => {
                     message: "1", //True
                     data: result.recordset
                 });
-                // console.log(err);
-            });  
-        }
-        else {
+            });
+        } else {
             return res.status(400).json({
                 message: "-1", //True
             });
-    }
+        }
     } catch (error) {
         return res.status(400).json({
             message: "-2", //True
         });
     }
 }
-    
+
 let handleRegisterUser = async(req, res) => {
     try {
         let {UNAME, PWD, MSSV, SDT, EMAIL} = req.body;
@@ -84,13 +82,11 @@ let handleRegisterUser = async(req, res) => {
             message: "-2", //True
         });
     }
-    
-    
 }
 
-let getCart = async (req, res) => {
+let getCart = async(req, res) => {
     try {
-        let {MSSV} = req.body;
+        let { MSSV } = req.body;
         if (!MSSV) {
             return res.status(400).json({
                 message: "0", //fail
