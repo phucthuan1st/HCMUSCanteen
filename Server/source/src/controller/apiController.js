@@ -206,7 +206,7 @@ let handleReduceNumOfFoodInCart = async (req, res) => {
 
 let handleRemoveFromCart = async (req, res) => {
     try {
-        let GH_ID = req.params.GH_ID;
+        let {GH_ID} = req.body
         if(GH_ID) {
             await Connection.connect();
             Connection.request().query( `EXEC dbo.sp_xoaKhoiGioHang @GH_ID = ${GH_ID}`, (err) => {
@@ -332,10 +332,10 @@ let getDetailReceipt = async (req, res) => {
 
 let handleReportOnDay = async(req,res) => {
     try {
-        let {TIME} = req.body;
-        if(TIME) {
+        let {DAY, MONTH, YEAR} = req.body;
+        if(DAY && MONTH && YEAR) {
             await Connection.connect();
-            Connection.request().query( `SELECT T.TP_TEN, c.CTDH_SOLUONG, c.CTDH_MA_DONGIA FROM CHITIETHADON c JOIN THUCPHAM t ON c.TP_MA = t.TP_MA WHERE c.HD_MA = ${HD_ID}`, (err, result) => {
+            Connection.request().query( `exec sp_reportOnDay ${DAY}, ${MONTH}, ${YEAR}`, (err, result) => {
                 if(err) {
                     console.log(err);
                     return res.status(400).json({
@@ -358,11 +358,132 @@ let handleReportOnDay = async(req,res) => {
         return res.status(400).json({
             message: "-2", //True
         });
-    }
-    
+    }   
 }
 
+let handleReportOnDayOfEmployee = async (req, res) => {
+    try {
+        let {NV_ID, DAY, MONTH, YEAR} = req.body;
+        if(NV_ID && DAY && MONTH && YEAR) {
+            await Connection.connect();
+            Connection.request().query( `exec sp_reportOnDayofEachEmployee ${NV_ID},${DAY}, ${MONTH}, ${YEAR}`, (err, result) => {
+                if(err) {
+                    console.log(err);
+                    return res.status(400).json({
+                        message: "0", //True
+                    });
+                } else {
+                    return res.status(200).json({
+                        message: "1", //True
+                        data: result.recordset
+                    });
+                }
+            })
+        }
+        else {
+            return res.status(400).json({
+                message: "-1"
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            message: "-2", //True
+        });
+    }   
+}
 
+let handleReportInMonth = async (req, res) => {
+    try {
+        let {MONTH, YEAR} = req.body;
+        if(MONTH && YEAR) {
+            await Connection.connect();
+            Connection.request().query( `exec sp_reportOnMonth ${MONTH}, ${YEAR}`, (err, result) => {
+                if(err) {
+                    console.log(err);
+                    return res.status(200).json({
+                        message: "0", //True
+                    });
+                } else {
+                    return res.status(200).json({
+                        message: "1", //True
+                        data: result.recordset
+                    });
+                }
+            })
+        }
+        else {
+            return res.status(200).json({
+                message: "-1"
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            message: "-2", //True
+        });
+    }   
+}
+
+let handleAddCookedFood = async (req, res) => {
+    try {
+        let {NAMEFOOD, PRICEFOOD} = req.body;
+        if(NAMEFOOD && PRICEFOOD) {
+            await Connection.connect();
+            Connection.request().query( `EXEC sp_themMonAnQuaNau  N'${NAMEFOOD}', ${PRICEFOOD}`, (err, result) => {
+                if(err) {
+                    console.log(err);
+                    return res.status(200).json({
+                        message: "0", //True
+                    });
+                } else {
+                    return res.status(200).json({
+                        message: "1", //True
+                        data: result.recordset
+                    });
+                }
+            })
+        }
+        else {
+            return res.status(200).json({
+                message: "-1"
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            message: "-2", //True
+        });
+    } 
+}
+
+let handleAddFastFood = async (req, res) => {
+    try {
+        let {NAMEFOOD, PRICEFOOD, SOLUONG, NGAYSX, GIANHAP, HANSD} = req.body;
+        if(NAMEFOOD && PRICEFOOD && SOLUONG && NGAYSX && GIANHAP && HANSD) {
+            await Connection.connect();
+            Connection.request().query( `EXEC sp_themMatHang  N'${NAMEFOOD}', ${PRICEFOOD}, ${SOLUONG}, '${NGAYSX}', ${GIANHAP}, '${HANSD}'`, (err, result) => {
+                if(err) {
+                    console.log(err);
+                    return res.status(200).json({
+                        message: "0", //True
+                    });
+                } else {
+                    return res.status(200).json({
+                        message: "1", //True
+                        data: result.recordset
+                    });
+                }
+            })
+        }
+        else {
+            return res.status(200).json({
+                message: "-1"
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            message: "-2", //True
+        });
+    } 
+}
 
 module.exports = {
     getFood,
@@ -378,5 +499,10 @@ module.exports = {
     getDetailReceipt,
 
     // report
-    handleReportOnDay
+    handleReportOnDay,
+    handleReportOnDayOfEmployee,
+    handleReportInMonth,
+    //food
+    handleAddCookedFood,
+    handleAddFastFood
 }
