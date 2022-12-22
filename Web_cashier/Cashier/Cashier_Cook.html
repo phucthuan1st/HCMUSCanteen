@@ -47,10 +47,12 @@
                     </div>
                 </div>
                 <div class="time">
-                    <span>Thứ hai</span>
-                    <span>Ngày
-                        <span>05/01/2023</span>
-                    </span>
+                    <div>
+                        <span>Thứ hai <span>,</span></span>
+                        <span>Ngày
+                            <span>05/01/2023</span>
+                        </span>
+                    </div>
                     <span>10h30</span>
                 </div>
             </div>
@@ -65,7 +67,7 @@
                             <div>
                                 <img src="../images/logoHCMUS.png" alt="This is food">
                             </div>
-                            <div>
+                            <div class="info">
                                 <span>Cơm sườn</span>
                                 <span>20.000đ</span>
                             </div>
@@ -73,14 +75,27 @@
                                 <button type="">+</button>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="order">
                     <div class="top_order">
-                        <div class="title">
+                        <div class="title_top_order">
                             <span>Hoá đơn</span>
                         </div>
-                        <div class="chosen">
+                        <div class="chosen " style="overflow-y: scroll;">
+                            <div class="food_chosen">
+                                <div class="top_food_chosen">
+                                    <div>
+                                        <span>Cơm chiên gà xối mỡ</span>
+                                    </div>
+                                    <button>X</button>
+                                </div>
+                                <div class="bottom_food_chosen">
+                                    <span>x1</span>
+                                    <span>20.000đ</span>
+                                </div>
+                            </div>
 
                         </div>
                         <div class="total_price">
@@ -89,14 +104,18 @@
                         </div>
                     </div>
                     <div class="bottom_order">
-                        <div class="pay">
+                        <div class="btn_pay">
                             <button>Thanh toán</button>
                         </div>
-                        <div>
-                            <button type="button">Xoá hoá đơn</button>
-                            <button type="button">Ghi chú</button>
-                            <button type="button">Mã giảm giá</button>
-                            <button type="button">Reset hệ thống</button>
+                        <div class="btn_orthe">
+                            <div>
+                                <button type="button">Xoá hoá đơn</button>
+                                <button type="button">Ghi chú</button>
+                            </div>
+                            <div>
+                                <button type="button">Mã giảm giá</button>
+                                <button type="button">Reset hệ thống</button>
+                            </div>
                         </div>
                     </div>
                 </div>
