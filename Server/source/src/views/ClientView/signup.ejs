@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../Resources/favicon.ico">
+    <title>Document</title>
+</head>
+
+<body>
+    <!----- CSS and Script-->
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script src="script.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+
+    <!------ HTML Element ----->
+    <div>
+        <img class="logo" src="/img/Resources/logoHCMUS.png">
+    </div>
+    <div>
+        <p class="interFontText" id="labelCanteen">
+            <strong>CĂN TIN <br> TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN</strong>
+        </p>
+    </div>
+
+    <div style="margin-bottom:5vh">
+        <form class="login-form" action="/create-user" method="post">
+            <input type="text" placeholder="Tên tài khoản" name="UNAME" id="usr">
+            <input type="password" placeholder="Mật khẩu" name="PWD" id="pas">
+            <input type="text" placeholder="Mã số sinh viên / cán bộ" name="MSSV" id="num">
+            <input type="text" placeholder="Số điện thoại" name="SDT" id="phone">
+            <input type="text" placeholder="Email" name="EMAIL" id="mail">
+            <input type="submit" id="login_submit " value="Đăng ký">
+        </form>
+    </div>
+
+    <div>
+        <p class="interFontText" id="labelContact">MỌI THẮC MẮC LIÊN HỆ</p>
+        <ul class="contactInfo">
+            <li class="interFontText">SĐT: 0123456789</li>
+            <li class="interFontText">Email: BCQT@gmail.com</li>
+        </ul>
+    </div>
+</body>
+
+</html>
