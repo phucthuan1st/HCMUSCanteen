@@ -29,7 +29,7 @@ let handleLogin = async(req, res) => {
         let { UNAME, PWD } = req.body;
         if (UNAME && PWD) {
             await Connection.connect();
-            Connection.request().query(`SELECT MA, LOAITK FROM TAIKHOAN WHERE UNAME = N'${UNAME}' AND PWD = N'${PWD}'`, (err, result) => {
+            Connection.request().query(`EXEC sp_XulyDangNhap '${UNAME}', '${PWD}'`, (err, result) => {
                 if(err) {
                     console.log(err);
                     return res.status(200).json({
