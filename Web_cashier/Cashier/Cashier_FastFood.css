@@ -10,13 +10,13 @@
     --green: #28D682;
 }
 
-.body {
+body {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     box-sizing: border-box;
 }
 
-.html {
+html {
     font-size: 16px;
 }
 

@@ -7,12 +7,12 @@
     --blue: #285CD6;
 }
 
-.body {
+body {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
 }
 
-.html {
+html {
     font-size: 16px;
 }
 
