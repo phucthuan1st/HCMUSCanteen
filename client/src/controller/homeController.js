@@ -63,7 +63,6 @@ let getHomeCustomer  = async (req, res) => {
 let getHomeCart = async (req, res) => {
     try {
         let {ID, LOAITK, MA} = req.session;
-        console.log(MA)
         if(LOAITK === 'NHANVIEN'.trim()) {
             return res.redirect('/employee');
         }
@@ -81,7 +80,6 @@ let getHomeCart = async (req, res) => {
             .then(response => {
                 if(response["message"] == 1) {
                     data = response["data"];
-                    console.log(data);
                     return res.render('ClientView/cart.ejs', {data: data});
                 } else {
                     
@@ -131,22 +129,26 @@ let updateFood = async (req, res) => {
 
 let addFoodToCart = async (req, res) => {
     let {ID, LOAITK, MA} = req.session;
-    let TP_MA = req.params.TPMA;
+    let {TP_MA} = req.body;
     let data = [];
-    await Connection.connect();
-    let data_food = Connection.request().query(`SELECT * FROM dbo.THUCPHAM WHERE TP_MA = ${TP_MA}`);
-    data = (await data_food).recordset;
-    let data_cart= Connection.request().query(`SELECT * FROM dbo.GIOHANG WHERE KH_MA = ${MA} AND TP_MA = ${TP_MA}`);
-    if (((await data_cart).recordset).length === 0) {
-        Connection.request().query(`INSERT INTO dbo.GIOHANG(KH_MA, TP_MA,GH_SOLUONG, GH_TONGTIEN) VALUES (${MA}, ${data[0].TP_MA}, 1, ${data[0].TP_GIA})`);
-    }
-    else {
-        let number = (await data_cart).recordset;
-        console.log(number);
-        Connection.request().query(`UPDATE dbo.GIOHANG SET GH_SOLUONG = ${number[0].GH_SOLUONG + 1} WHERE KH_MA = ${MA} AND TP_MA = ${data[0].TP_MA}`);
-    }
-    
-    return res.redirect('/customer');
+    fetch('http://localhost:1111/api/add-to-cart', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"MSSV": MA, "TP_MA": TP_MA})
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response["message"] == 1) {
+            data = response["data"];
+            console.log("check data>>>>>>>>>>>>>> ",data);
+            return res.redirect('/customer');
+        } else {
+            
+        }
+    })
 }
 
 let getPageCart = async (req, res) => {
@@ -256,18 +258,47 @@ let loginUser = async (req, res) => {
 }
 
 let reduceNumberOfFood = async (req, res) => {
-    let {ID, LOAITK, MA} = req.session;
-    await Connection.connect();
-    let {TP_MA} = req.body;
-    let data_cart= Connection.request().query(`SELECT * FROM dbo.GIOHANG WHERE KH_MA = ${MA} AND TP_MA = ${TP_MA}`);
-    let data = (await data_cart).recordset;
-    if(data[0].GH_SOLUONG > 1) {
-        Connection.request().query(`UPDATE dbo.GIOHANG SET GH_SOLUONG = ${data[0].GH_SOLUONG - 1} WHERE KH_MA = ${MA} AND TP_MA = ${data[0].TP_MA}`);
-    }
-    else {
-        Connection.request().query(`DELETE dbo.GIOHANG  WHERE KH_MA = ${MA} AND TP_MA = ${data[0].TP_MA}`);
-    }
-    return res.redirect('/customer/cart');
+    let {LOAITK, MA} = req.session;
+    let {GH_ID} = req.body;
+    fetch('http://localhost:1111/api/reduce-number-of-food-in-cart', {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"GH_ID": GH_ID})
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response);
+        if(response["message"] == 1) {
+            return res.redirect('/customer/cart');
+        } else {
+            return res.redirect('/customer');
+        }
+    })
+}
+
+let deleteNumberOfFood = async (req, res) => {
+    let {LOAITK, MA} = req.session;
+    let {GH_ID} = req.body;
+    fetch('http://localhost:1111/api/remove-from-cart', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"GH_ID": GH_ID})
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response);
+        if(response["message"] == 1) {
+            return res.redirect('/customer/cart');
+        } else {
+            return res.redirect('/customer');
+        }
+    })
 }
 
 let raisesNumberOfFood = async (req, res) => {
@@ -329,5 +360,6 @@ module.exports = {
     raisesNumberOfFood,
     reduceNumberOfFood,
     getHomePayment,
-    handlePayment
+    handlePayment,
+    deleteNumberOfFood
 }

@@ -11,7 +11,7 @@ const initAPIRoute = (app) =>{
     router.post('/cart', apiController.getCart); // MSSV
     router.put('/raise-number-of-food-in-cart', apiController.handleRaiseNumOfFoodInCart); //{GH_ID} 
     router.put('/reduce-number-of-food-in-cart', apiController.handleReduceNumOfFoodInCart);//{GH_ID}
-    router.post('/remove-from-cart/:GH_ID', apiController.handleRemoveFromCart); //params GH_ID 
+    router.post('/remove-from-cart', apiController.handleRemoveFromCart); //params GH_ID 
     router.post('/handle-receipt', apiController.handleReceipt); //{MSSV}
     router.post('/get-receipt', apiController.getReceipt); //{MSSV}
     router.post('/get-detail-receipt', apiController.getDetailReceipt); //{HD_ID} 

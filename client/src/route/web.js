@@ -5,12 +5,12 @@ let router = express.Router();
 
 const initWebRoute = (app) =>{
     router.get('/', homeController.getHomepage);
-    router.get('/user/cart/:TPMA', homeController.getHomeCart)
+    router.get('/user/cart', homeController.getHomeCart)
     router.post('/create-new-food', homeController.createNewFood)
     router.post('/delete-food', homeController.deleteFood);
     router.get('/edit-food/:TPMA', homeController.editFood);
     router.post('/update-food', homeController.updateFood);
-    router.get('/add-food-to-cart/:TPMA', homeController.addFoodToCart);
+    router.post('/add-food-to-cart', homeController.addFoodToCart);
     router.get('/customer/cart', homeController.getHomeCart);
     router.get('/edit-food', homeController.getHomeEditFood);
     router.get('/management', homeController.getHomeManagement);
@@ -22,6 +22,7 @@ const initWebRoute = (app) =>{
     router.post('/login-user', homeController.loginUser);
     router.post('/customer/cart/raises', homeController.raisesNumberOfFood);
     router.post('/customer/cart/reduce', homeController.reduceNumberOfFood);
+    router.post('/customer/cart/delete', homeController.deleteNumberOfFood);
     router.get('/customer/pay-bill', homeController.getHomePayment)
     router.get('/customer/pay-bill/handle-momo', homeController.handlePayment)
     return app.use('/', router);

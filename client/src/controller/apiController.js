@@ -176,6 +176,7 @@ let handleRaiseNumOfFoodInCart = async (req, res) => {
 let handleReduceNumOfFoodInCart = async (req, res) => {
     try {
         let {GH_ID} = req.body;
+        console.log("server: ", req.body);
         if(GH_ID) {
             await Connection.connect();
             Connection.request().query( `EXEC dbo.sp_giamMotTrongGioHang @GH_ID = ${GH_ID}`, (err) => {
