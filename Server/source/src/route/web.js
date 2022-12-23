@@ -24,7 +24,14 @@ const initWebRoute = (app) =>{
     router.post('/customer/cart/reduce', homeController.reduceNumberOfFood);
     router.post('/customer/cart/delete', homeController.deleteNumberOfFood);
     router.get('/customer/pay-bill', homeController.getHomePayment)
-    router.get('/customer/pay-bill/handle-momo', homeController.handlePayment)
+    router.get('/customer/pay-bill/handle-momo', homeController.handlePayment);
+    //admin
+    router.get('/admin/login', homeController.getLoginAdmin);
+    router.post('/admin/handle-login', homeController.handleloginAdmin);
+    router.get('/admin', homeController.gethomeAdmin);
+    router.get('/admin/food', homeController.getDataFoodAdmin);
+    router.post('/admin/add-to-cart', homeController.handleAdminAddToCart);
+    router.post('/admin/delete-from-cart', homeController.handleAdminDeleteFromCart);
     return app.use('/', router);
 }
 

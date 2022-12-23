@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/resert.css">
+    <link rel="stylesheet" href="/css/Cashier_FastFood.css">
+    <link rel="icon" type="image/x-icon" href="/img/Resources/favicon.ico">
+    <title>CASHIER</title>
+</head>
+
+<body>
+    <section>
+        <div class="title">
+            <div class="call">
+                <a href="#">
+                    <span>Công ăn cứt</span>
+                    <span> - Mã nhân viên:
+                        <span>NV01</span>
+                    </span>
+                </a>
+            </div>
+            <div>
+                <a href="#">
+                    Chế biến
+                </a>
+            </div>
+            <div>
+                <a href="#">Đăng xuất</a>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="top_container">
+                <div class="logo">
+                    <img src="/img/Resources/logoHCMUS.png" alt="This is logo">
+                    <div class="name">
+                        <span>Căn tin</span>
+                        <span>trường đại học khoa học tự nhiên</span>
+                    </div>
+                </div>
+                <div class="time">
+                    <div>
+                        <span>Thứ hai <span>,</span></span>
+                        <span>Ngày
+                            <span>05/01/2023</span>
+                        </span>
+                    </div>
+                    <span>10h30</span>
+                </div>
+            </div>
+            <div class="middle_container">
+                <div class="food">
+                    <div class="option">
+                        <a href="/admin">Đồ nấu</a>
+                        <a href="/admin/food">Đồ ăn liền</a>
+                    </div>
+                    <div class="choice_food" style="overflow-y: scroll;">
+                        <% for(let i = 0; i < data.length; i++) {%>
+                            <div class="product">
+                                <div>
+                                    <img src="/img/Resources/logoHCMUS.png" alt="This is food">
+                                </div>
+                                <div class="info">
+                                    <span><%= data[i].TP_TEN%></span>
+                                    <span><%= data[i].TP_GIA%></span>
+                                </div>
+                                <div>
+                                    <form action="/admin/add-to-cart" method="post">
+                                        <input type="text" name="CHECK" value="1" hidden>
+                                        <input type="text" name="TP_MA" value="<%= data[i].TP_MA%>" hidden>
+                                        <button type="">+</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <% }%>
+
+                    </div>
+                </div>
+                <div class="order">
+                    <div class="top_order">
+                        <div class="title_top_order">
+                            <span>Hoá đơn</span>
+                        </div>
+                        <div class="chosen " style="overflow-y: scroll;">
+                            <% for(let i = 0; i < cart.length; i++) {%>
+                                <div class="food_chosen">
+                                    <div class="top_food_chosen">
+                                        <div>
+                                            <span><%= cart[i].TP_TEN%></span>
+                                        </div>
+                                        <form action="/admin/delete-from-cart" method="post">
+                                            <input type="text" name="CHECK" value="1" hidden>
+                                            <input type="text" name="GH_ID" value="<%= cart[i].ID%>" hidden>
+                                            <button>X</button>
+                                        </form>
+                                    </div>
+                                    <div class="bottom_food_chosen">
+                                        <span>x<%= cart[i].GH_SOLUONG%></span>
+                                        <span><%= cart[i].GH_TONGTIEN%></span>
+                                    </div>
+                                </div>
+                                <% } %>
+
+                        </div>
+                        <div class="total_price">
+                            <span>Tổng:</span>
+                            <span><%= totalPrice %></span>
+                        </div>
+                    </div>
+                    <div class="bottom_order">
+                        <div class="btn_pay">
+                            <button>Thanh toán</button>
+                        </div>
+                        <div class="btn_orthe">
+                            <div>
+                                <button type="button">Xoá hoá đơn</button>
+                                <button type="button">Ghi chú</button>
+                            </div>
+                            <div>
+                                <button type="button">Mã giảm giá</button>
+                                <button type="button">Reset hệ thống</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
