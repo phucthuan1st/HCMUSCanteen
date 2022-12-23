@@ -1,0 +1,382 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root {
+    --gray: #D0D0D0;
+    --strong_blue: #273E74;
+    --brown: #D67128;
+    --blue: #285CD6;
+    --light_blue: rgba(0, 132, 255, 0.64);
+    --pink: #FF4567;
+    --green: #28D682;
+}
+
+.body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.html {
+    font-size: 16px;
+}
+
+
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--gray);
+    padding: 1rem 0;
+}
+
+.title a {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--strong_blue);
+    text-decoration: none;
+    height: 100%;
+    color: #fff;
+}
+
+.title a:hover {
+    cursor: pointer;
+    color: aliceblue;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: max-content;
+    justify-content: center;
+    align-items: center;
+}
+
+.top_container {
+    display: flex;
+    width: 80%;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.logo img {
+    width: 15%;
+    height: max-content;
+    object-fit: cover;
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+}
+
+.name span {
+    color: var(--strong_blue);
+    text-transform: uppercase;
+    line-height: 2rem;
+}
+
+.name span:nth-child(1) {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.name span:nth-child(2) {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.time {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.time span {
+    color: var(--strong_blue);
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.4rem;
+}
+
+.time>span {
+    margin-left: 11rem;
+}
+
+.middle_container {
+    display: flex;
+    width: 80%;
+    flex-direction: row;
+    margin-top: 2rem;
+}
+
+.food {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.option {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around
+}
+
+.option a {
+    background-color: var(--gray);
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 1px 1px 40px var(--gray);
+}
+
+.option a:last-child {
+    background-color: var(--light_blue);
+}
+
+.choice_food {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 70vh;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--strong_blue);
+    align-items: center;
+}
+
+.product {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: max-content;
+    justify-content: space-around;
+    align-items: center;
+    margin: 2vh auto 2vh auto;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px var(--gray);
+    background: rgba(88, 136, 180, 0.304);
+}
+
+.product>div:nth-child(1) {
+    width: 20%;
+    margin-left: 3rem;
+}
+
+.product>div>img {
+    width: 60%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.product>div:last-child {
+    display: flex;
+    justify-self: flex-end;
+    align-self: flex-end;
+    margin: 0.5rem 1rem;
+}
+
+.product>div>button {
+    border: none;
+    background-color: var(--light_blue);
+    box-shadow: 1px 1px 2px var(--gray);
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 8px;
+}
+
+.product>div>button:hover {
+    color: #fff;
+    cursor: pointer;
+    background-color: var(--blue);
+    opacity: 0.6;
+}
+
+.order {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    height: 79.2vh;
+    margin-left: 2rem;
+    border: 1px solid var(--strong_blue);
+}
+
+.top_order {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60vh;
+    border: 1px solid var(--strong_blue);
+}
+
+.title_top_order {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: var(--strong_blue);
+    color: #fff;
+    text-transform: uppercase;
+    height: 5%;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 1.3rem 0;
+}
+
+.chosen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80%;
+}
+
+.food_chosen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    min-height: 3rem;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    margin: 1rem 1rem 0 1rem;
+}
+
+.top_food_chosen,
+.bottom_food_chosen {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    height: max-content;
+}
+
+.top_food_chosen span,
+.bottom_food_chosen span {
+    line-height: 1.4rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.top_food_chosen>div:nth-child(1) {
+    width: 80%;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+
+.top_food_chosen>button {
+    border: none;
+    background-color: #5d85e1;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+
+.top_food_chosen>button:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.total_price {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: var(--pink);
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.4rem 0;
+}
+
+.bottom_order {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.btn_pay button {
+    width: 100%;
+    border: none;
+    background-color: var(--brown);
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.4rem 0;
+    margin-top: 0.4rem;
+}
+
+.btn_orthe {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.btn_orthe button {
+    margin-top: 0.3rem;
+    width: 45%;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    background: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.btn_orthe button:hover,
+.btn_pay button:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.btn_orthe>div:nth-child(1),
+.btn_orthe>div:nth-child(2) {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.btn_orthe>div:nth-child(1)>button:nth-child(1),
+.btn_orthe>div:nth-child(2)>button:nth-child(2) {
+    background-color: var(--gray);
+}
+
+.btn_orthe>div:nth-child(1)>button:nth-child(2) {
+    background-color: #2963e9;
+}
+
+.btn_orthe>div:nth-child(2)>button:nth-child(1) {
+    background-color: var(--green);
+}
