@@ -1,5 +1,6 @@
 import Connection from "../configs/connectDB";
 import session from 'express-session'
+import alert from 'alert'
 
 let getHomepage = async (req, res) => {
     //logic
@@ -219,7 +220,7 @@ let getHomeLogin = async (req, res) => {
             return res.redirect('/admin');
         }
         else{
-            return res.render('login/login.ejs');
+            return res.render('ClientView/login.ejs');
         }
     } catch (error) {
          console.log("ERROR: ", error);
@@ -240,12 +241,15 @@ let loginUser = async (req, res) => {
         })
         .then(response => response.json())
         .then(response => {
-            if(response["message"] == 1) {
+            if(response["message"] == 1 && response["data"].length > 0) {
                 const data = response["data"];
                 req.session.ID = data[0].ID;
                 req.session.LOAITK = data[0].LOAITK.trim();
                 req.session.MA = data[0].MA;
                 res.redirect('/customer');
+            }
+            else {
+                return res.redirect('/login');
             }
         })
         
