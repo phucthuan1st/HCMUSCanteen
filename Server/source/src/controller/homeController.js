@@ -7,7 +7,7 @@ let getHomepage = async (req, res) => {
     try {
         let {ID, LOAITK, MA} = req.session;
         if(LOAITK === 'NHANVIEN'.trim()) {
-            return res.redirect('/employee');
+            return res.redirect('/admin');
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
             return res.redirect('/customer');
@@ -342,7 +342,15 @@ let handlePayment = async (req, res) => {
     Connection.request().query(`EXEC dbo.sp_datHang @KH_MA = ${MA}, @HINHTHUCTHANHTOAN = N'Thanh toán trực tuyến'`);
     return res.render('customer/receipt.ejs');
 }
-
+//
+let getHomeLogout = async (req, res) => { 
+    const {LOAITK} = req.session;
+    req.session.destroy();
+    if(LOAITK === 'NHANVIEN' || LOAITK === 'ADMIN') {
+        return res.redirect('/admin');
+    }else
+        return res.redirect('/');
+}
 // admin
 let getLoginAdmin = async (req, res) => {
     let {LOAITK} = req.session;
@@ -573,7 +581,8 @@ module.exports = {
     getHomePayment,
     handlePayment,
     deleteNumberOfFood,
-
+    // log out
+    getHomeLogout,
     //admin
     getLoginAdmin,
     handleloginAdmin,
