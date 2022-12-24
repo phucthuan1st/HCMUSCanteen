@@ -504,6 +504,35 @@ let getEmployeeInfo = async (req, res) => {
         });
     }
 }
+
+let getGoods = async (req, res) => {
+    try {
+        if (true) {
+            await Connection.connect();
+            Connection.request().query(`SELECT m.TP_MA, m.TP_TEN, m.TP_LOAI, m.TP_GIA, m.MH_SOLUONGTON, m.MH_GIATIENNHAP FROM MATHANG m`, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(200).json({
+                        message: "0", //True
+                    });
+                } else {
+                    return res.status(200).json({
+                        message: "1", //True
+                        data: result.recordset
+                    });
+                }
+            })
+        } else {
+            return res.status(200).json({
+                message: "-1"
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            message: "-2", //True
+        });
+    }
+}
 module.exports = {
     getFood,
     handleLogin,
@@ -524,5 +553,6 @@ module.exports = {
     //food
     handleAddCookedFood,
     handleAddFastFood,
-    getEmployeeInfo
+    getEmployeeInfo,
+    getGoods
 }

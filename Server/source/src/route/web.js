@@ -35,6 +35,8 @@ const initWebRoute = (app) => {
     router.post('/admin/add-to-cart', homeController.handleAdminAddToCart);
     router.post('/admin/delete-from-cart', homeController.handleAdminDeleteFromCart);
     router.get('/employee', homeController.gethomeEmployee);
+
+    router.get('/employee/goods', homeController.getGoods)
     // router.get('/employee/day-report', homeController.getEmployeeDayReport);
     return app.use('/', router);
 }
