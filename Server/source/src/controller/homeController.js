@@ -143,11 +143,12 @@ let addFoodToCart = async (req, res) => {
     })
     .then(response => response.json())
     .then(response => {
+        console.log("response.message:   ", response.message);
         if(response["message"] == 1) {
             data = response["data"];
             return res.redirect('/customer');
         } else {
-            
+            return res.redirect('/customer');
         }
     })
 }
@@ -407,6 +408,7 @@ let handleloginAdmin = async (req, res) => {
 }
 
 let gethomeAdmin = async (req, res) => {
+    console.log(req.session);
     let {LOAITK, MA} = req.session;
     if (LOAITK === 'ADMIN' || LOAITK === 'NHANVIEN'.trim()) {
         let data = [];
