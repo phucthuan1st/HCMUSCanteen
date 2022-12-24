@@ -28,7 +28,7 @@ let getHomeCustomer  = async (req, res) => {
     try {
         let {ID, LOAITK} = req.session;
         if(LOAITK === 'NHANVIEN'.trim()) {
-            return res.redirect('/employee');
+            return res.redirect('/admin');
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
             let data = [];
@@ -246,9 +246,11 @@ let loginUser = async (req, res) => {
         .then(response => {
             if(response["message"] == 1 && response["data"].length > 0) {
                 const data = response["data"];
-                req.session.LOAITK = data[0].LOAITK.trim();
-                req.session.MA = data[0].MA;
-                req.session.MSSV = data[0].MSSV;
+                if(data[0].LOAITK != null){
+                    req.session.LOAITK = data[0].LOAITK.trim();
+                    req.session.MA = data[0].MA;
+                    req.session.MSSV = data[0].MSSV;
+                }
                 res.redirect('/customer');
             }
             else {
@@ -347,7 +349,7 @@ let handlePayment = async (req, res) => {
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
             let data = [];
-            fetch('http://localhost:1111/api/cart', {
+            fetch('http://localhost:1111/api/handle-receipt', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -372,6 +374,7 @@ let handlePayment = async (req, res) => {
         }
     } catch (error) {
          console.log("ERROR: ", error);
+         return res.redirect('/');
     }
     
 }
@@ -415,11 +418,10 @@ let handleloginAdmin = async (req, res) => {
                     req.session.TEN = "ADMIN";
                     res.redirect('/admin');
                 }
-                else if(data[0].LOAITK.trim() === 'NHANVIEN'){
+                else if(data[0].LOAITK === 'NHANVIEN'){
                     req.session.MA = data[0].MA;
                     req.session.LOAITK = data[0].LOAITK.trim();
                     req.session.TEN = data[0].TEN;
-                    console.log(req.session);
                     res.redirect('/admin');
                 }
                 else {
@@ -440,6 +442,7 @@ let handleloginAdmin = async (req, res) => {
 }
 
 let gethomeAdmin = async (req, res) => {
+    console.log(req.session);
     let {LOAITK, MA} = req.session;
     if (LOAITK === 'ADMIN' || LOAITK === 'NHANVIEN'.trim()) {
         let data = [];
@@ -540,7 +543,7 @@ let getDataFoodAdmin = async (req, res) => {
 }
 
 let handleAdminAddToCart = async (req, res) => {
-    let {ID, LOAITK, MA} = req.session;
+    let {LOAITK, MA} = req.session;
     let {TP_MA, CHECK} = req.body;
     let data = [];
     fetch('http://localhost:1111/api/add-to-cart', {
@@ -553,6 +556,7 @@ let handleAdminAddToCart = async (req, res) => {
     })
     .then(response => response.json())
     .then(response => {
+        console.log(response);
         if(response["message"] == 1) {
             if(CHECK === '1') {
                 return res.redirect('/admin/food');
@@ -560,9 +564,33 @@ let handleAdminAddToCart = async (req, res) => {
             else 
                 return res.redirect('/admin');
         } else {
-            
+            return res.redirect('/admin');
         }
     })
+
+    // let {ID, LOAITK, MA} = req.session;
+    // let {TP_MA, CHECK} = req.body;
+    // console.log(JSON.stringify({"MSSV": MA, "TP_MA": TP_MA}));
+    // fetch('http://localhost:1111/api/add-to-cart', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({"MSSV": String(MA), "TP_MA": TP_MA})
+    // })
+    // .then(response => response.json())
+    // .then(response => {
+    //     if(response["message"] == 1) {
+    //         if(CHECK === '1') {
+    //             return res.redirect('/admin/food');
+    //         }
+    //         else 
+    //             return res.redirect('/admin');
+    //     } else {
+            
+    //     }
+    // })
 
 }
 
@@ -632,6 +660,38 @@ let getGoods = async (req, res) => {
     })
 }
 
+let handleAdminPayment = async (req, res) => {
+    try {
+        let {LOAITK, MA} = req.session;
+        if(LOAITK === 'NHANVIEN'.trim() || LOAITK === 'ADMIN'.trim()) {
+            let data = [];
+            fetch('http://localhost:1111/api/handle-receipt', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"MSSV": MA})
+            })
+            .then(response => response.json())
+            .then(response => {
+                if(response["message"] == 1) {
+                    return res.render('img.ejs', {data: data});
+                } else {
+                    return res.redirect('/');
+                }
+            })
+        }
+        else if (LOAITK === 'KHACHHANG'.trim()) {
+            return res.redirect('/');
+        }
+        else{
+            return res.redirect('/');  
+        }
+    } catch (error) {
+         console.log("ERROR: ", error);
+    }
+}
 
 module.exports = {
     getHomepage,
@@ -664,6 +724,7 @@ module.exports = {
     getDataFoodAdmin,
     handleAdminAddToCart,
     handleAdminDeleteFromCart,
+    handleAdminPayment,
 
     //employee
     gethomeEmployee,
