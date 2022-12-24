@@ -9,22 +9,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../resert.css">
-    <link rel="stylesheet" href="./Thông tin tổng.css">
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="/css/resert.css">
+    <link rel="stylesheet" href="/css/Thông tin tổng.css">
+    <link rel="icon" type="image/x-icon" href="/img/Resources/favicon.ico">
     <title>EMPLOYEE</title>
 </head>
 
 <body>
     <nav class="navbar">
         <li>
-            <a href="#">Quay lại màn hình thu ngân</a>
+            <a href="/admin">Quay lại màn hình thu ngân</a>
         </li>
         <li>
             <a href="#">Lập phiếu nhập hàng</a>
         </li>
         <li>
-            <a href="#">Đăng xuất</a>
+            <a href="/logout">Đăng xuất</a>
         </li>
     </nav>
     <section>
@@ -34,7 +34,7 @@
                     <div class="left_top">
                         <div>
                             <a href="#">
-                                <img src="../images/Frame.png" alt="This is avatar">
+                                <img src="/img/Resources/Frame.png" alt="This is avatar">
                             </a>
                         </div>
                         <a href="#">Xem hàng hoá</a>
@@ -45,7 +45,7 @@
                                 <span>Căn tin</span>
                                 <span>Trường đại học khoa học tự nhiên</span>
                             </div>
-                            <img src="../images/logoHCMUS.png" alt="This is logo">
+                            <img src="/img/Resources/logoHCMUS.png" alt="This is logo">
                         </div>
                         <div class="time">
                             <div class="day">
@@ -59,7 +59,7 @@
                 </div>
                 <div class="option">
                     <div>
-                        <span>Nguyễn Đức Minh Quân</span>
+                        <span><%= data[0].NV_TEN%></span>
                         <span>Nhân viên bán thời gian</span>
                     </div>
                     <div class="choice">
@@ -80,10 +80,10 @@
             <div class="detail">
                 <div>
                     <label> Họ tên:
-                        <span>Nguyễn Đức Minh Quân</span>
+                        <span><%= data[0].NV_TEN%></span>
                     </label>
                     <label> Giới tính:
-                        <span>Nam</span>
+                        <span><%= data[0].NV_GIOTINH %></span>
                     </label>
                     <label> Ngày sinh:
                         <span>04/06/2002</span>

@@ -358,13 +358,9 @@ let handlePayment = async (req, res) => {
             .then(response => response.json())
             .then(response => {
                 if(response["message"] == 1) {
-                    data = response["data"];
-                    let totalPrice = 0;
-                    data.forEach(element => { totalPrice += element.GH_TONGTIEN });
-                    req.session.totalPrice = totalPrice;
-                    return res.render('ClientView/cart.ejs', {data: data});
+                    return res.render('img.ejs', {data: data});
                 } else {
-                    
+                    return res.redirect('/');
                 }
             })
         }
@@ -413,7 +409,7 @@ let handleloginAdmin = async (req, res) => {
         .then(response => {
             if(response["message"] == 1 && response["data"].length > 0) {
                 const data = response["data"];
-                if(data[0].LOAITK.trim() === 'ADMIN'){
+                if(data[0].LOAITK === 'ADMIN'){
                     req.session.LOAITK = data[0].LOAITK.trim();
                     req.session.MA = data[0].MA;
                     req.session.TEN = "ADMIN";
@@ -596,6 +592,27 @@ let handleAdminDeleteFromCart = async (req, res) => {
     })
 }
 
+let gethomeEmployee = async (req, res) => { 
+    let {LOAITK, MA} = req.session;
+    fetch('http://localhost:1111/api/employee/info', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"MSSV": MA})
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response["message"] == 1) {
+            let data = response["data"];
+            console.log(data);
+            return res.render('Web_cashier/Nhân viên/Thông tin tổng.ejs', {data: data});
+        } else {
+            return res.redirect('/admin');
+        }
+    })
+}
 
 module.exports = {
     getHomepage,
@@ -627,5 +644,8 @@ module.exports = {
     gethomeAdmin,
     getDataFoodAdmin,
     handleAdminAddToCart,
-    handleAdminDeleteFromCart
+    handleAdminDeleteFromCart,
+
+    //employee
+    gethomeEmployee
 }

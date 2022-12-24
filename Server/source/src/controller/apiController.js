@@ -474,6 +474,36 @@ let handleAddFastFood = async(req, res) => {
     }
 }
 
+
+let getEmployeeInfo = async (req, res) => {
+    try {
+        let {MSSV} = req.body;
+        if (MSSV) {
+            await Connection.connect();
+            Connection.request().query(`SELECT n.NV_TEN, n.NV_GIOTINH, n.NV_SDT FROM NHANVIEN n WHERE n.NV_MA = ${MSSV}`, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(200).json({
+                        message: "0", //True
+                    });
+                } else {
+                    return res.status(200).json({
+                        message: "1", //True
+                        data: result.recordset
+                    });
+                }
+            })
+        } else {
+            return res.status(200).json({
+                message: "-1"
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            message: "-2", //True
+        });
+    }
+}
 module.exports = {
     getFood,
     handleLogin,
@@ -493,5 +523,6 @@ module.exports = {
     handleReportInMonth,
     //food
     handleAddCookedFood,
-    handleAddFastFood
+    handleAddFastFood,
+    getEmployeeInfo
 }

@@ -20,6 +20,8 @@ const initAPIRoute = (app) =>{
     router.post('/employee/report-in-month', apiController.handleReportInMonth); //MONTH, YEAR
     router.post('/manager/add-cooked-food', apiController.handleAddCookedFood);
     router.post('/manager/add-fast-food', apiController.handleAddFastFood);
+
+    router.post('/employee/info', apiController.getEmployeeInfo);
     return app.use('/api/', router);
 }
 
