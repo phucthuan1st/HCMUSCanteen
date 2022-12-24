@@ -14,6 +14,7 @@ const initAPIRoute = (app) =>{
     router.post('/remove-from-cart', apiController.handleRemoveFromCart); //params GH_ID 
     router.post('/handle-receipt', apiController.handleReceipt); //{MSSV}
     router.post('/get-receipt', apiController.getReceipt); //{MSSV}
+    router.post('/get-receipt-success', apiController.getReceiptSuccess); //{MSSV, NGAY, THANG, NAM, GIO, PHUT}
     router.post('/get-detail-receipt', apiController.getDetailReceipt); //{HD_ID} 
     router.post('/employee/report-on-day', apiController.handleReportOnDay); //{DAY, MONTH, YEAR}
     router.post('/employee/report-on-day-of-employee', apiController.handleReportOnDayOfEmployee); //{NV_ID, DAY, MONTH, YEAR} 

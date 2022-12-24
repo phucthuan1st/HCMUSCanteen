@@ -360,7 +360,7 @@ let handlePayment = async (req, res) => {
             .then(response => response.json())
             .then(response => {
                 if(response["message"] == 1) {
-                    return res.render('img.ejs', {data: data});
+                    return res.redirect('/customer/pay-bill/suscess');
                 } else {
                     return res.redirect('/');
                 }
@@ -377,6 +377,52 @@ let handlePayment = async (req, res) => {
          return res.redirect('/');
     }
     
+}
+
+let payBillcuscess = async (req, res) => {
+    try {
+        let {LOAITK, MSSV} = req.session;
+        if(LOAITK === 'NHANVIEN'.trim()) {
+            return res.redirect('/employee');
+        }
+        else if (LOAITK === 'KHACHHANG'.trim()) {
+            let data = [];
+            var today = new Date();
+            let NGAY = today.getDate();
+            let THANG = today.getMonth() + 1;
+            let NAM = today.getFullYear();
+            let HOUR = today.getHours();
+            let MINUTE = today.getMinutes();
+            MSSV =  MSSV.trim();
+            fetch('http://localhost:1111/api/get-receipt-success', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"MSSV": MSSV, 'NAM': NAM, 'THANG': THANG, 'HOUR': HOUR, 'MINUTE': MINUTE, 'NGAY': NGAY})
+            })
+            .then(response => response.json())
+            .then(response => {
+                if(response["message"] == 1) {
+                    data = response["data"];
+                    return res.render('ClientView/devoice.ejs', {data: data, });
+                } else {
+                    // return res.redirect('/');
+                    return res.send('failure');
+                }
+            })
+        }
+        else if (LOAITK === 'ADMIN'.trim()){
+            return res.redirect('/admin');
+        }
+        else{
+            return res.redirect('/');  
+        }
+    } catch (error) {
+         console.log("ERROR: ", error);
+         return res.redirect('/');
+    }
 }
 //
 let getHomeLogout = async (req, res) => { 
@@ -715,6 +761,7 @@ module.exports = {
     getHomePayment,
     handlePayment,
     deleteNumberOfFood,
+    payBillcuscess,
     // log out
     getHomeLogout,
     //admin

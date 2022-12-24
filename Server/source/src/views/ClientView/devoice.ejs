@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/img/Resources/favicon.ico">
+    <title>Document</title>
+</head>
+
+<body>
+    <!----- CSS and Script-->
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <script src="script.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+
+    <!------ HTML Element ----->
+    <div class="logo-and-name">
+        <img class="small-logo" src="/img/Resources/logoHCMUS.png">
+        <p id="labelCanteen" style="font-size:3.5vw; margin-top:7vh">
+            CĂN TIN <br> TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN
+        </p>
+    </div>
+
+    <span class="payment-label">THÔNG TIN HÓA ĐƠN</span>
+    <div class="devoice-frame">
+        <table class="devoice-table">
+            <tr>
+                <td class="label">Mã hóa đơn</td>
+                <td class="content" style="color:crimson"><%= data[0].HD_MA %></td>
+            </tr>
+            <tr>
+                <td class="label">Mã số SV/CB</td>
+                <td class="content">20123456</td>
+            </tr>
+            <tr>
+                <td class="label">Họ tên</td>
+                <td class="content">Nguyễn Văn A</td>
+            </tr>
+            <tr>
+                <td class="label">Giờ nhận</td>
+                <td class="content">9:30</td>
+            </tr>
+            <tr>
+                <td class="label">Ghi chú</td>
+                <td class="content">cút</td>
+            </tr>
+
+        </table>
+        <img src="../Resources/logoHCMUS.png" alt="qrcode" style="width: 15vh; height: 15vh">
+    </div>
+
+    <button class="return">
+        TRANG CHỦ
+    </button>
+</body>
+
+</html>

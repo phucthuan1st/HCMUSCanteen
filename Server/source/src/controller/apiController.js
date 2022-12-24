@@ -58,7 +58,6 @@ let handleRegisterUser = async(req, res) => {
         let { UNAME, PWD, MSSV, SDT, EMAIL } = req.body;
         if (UNAME && PWD && MSSV && SDT && EMAIL) {
             await Connection.connect();
-            console.log("Connectted");
             Connection.request().query(`EXEC dbo.sp_themTaiKhoan @UN = '${UNAME}', @PW = '${PWD}', @MSSV = '${MSSV}', @SDT = '${SDT}',  @EMAIL = N'${EMAIL}'`, (err, result) => {
                 if (err) {
                     console.log(err);
@@ -86,7 +85,7 @@ let handleRegisterUser = async(req, res) => {
 
 let getCart = async(req, res) => {
     try {
-        let { MSSV } = req.body;
+        let {MSSV} = req.body;
         if (!MSSV) {
             return res.status(400).json({
                 message: "0", //fail
@@ -533,6 +532,39 @@ let getGoods = async (req, res) => {
         });
     }
 }
+
+let getReceiptSuccess = async (req, res) => {
+    try {
+        let {MSSV, NGAY, THANG, NAM, HOUR, MINUTE} = req.body;
+        console.log(req.body);
+        if (MSSV&& NGAY&& THANG&& NAM&& HOUR&& MINUTE) {
+            await Connection.connect();
+            Connection.request().query(`SELECT HD_MA FROM HOADON WHERE KH_MSSV = '${MSSV}' AND DAY(HD_NGAYLAP) = '${NGAY}' AND MONTH(HD_NGAYLAP) = '${THANG}' AND YEAR(HD_NGAYLAP) = '${NAM}' AND DATEPART(HOUR, HD_NGAYLAP) = '${HOUR}'`, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(200).json({
+                        message: "0", //True
+                    });
+                } else {
+                    return res.status(200).json({
+                        message: "1", //True
+                        data: result.recordset
+                    });
+                }
+            })
+        } else {
+            return res.status(200).json({
+                message: "-1"
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            message: "-2", //True
+        });
+    }
+}
+
+
 module.exports = {
     getFood,
     handleLogin,
@@ -545,6 +577,7 @@ module.exports = {
     handleReceipt,
     getReceipt,
     getDetailReceipt,
+    getReceiptSuccess,
 
     // report
     handleReportOnDay,
@@ -554,5 +587,7 @@ module.exports = {
     handleAddCookedFood,
     handleAddFastFood,
     getEmployeeInfo,
-    getGoods
+    getGoods,
+
+
 }

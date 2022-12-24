@@ -25,6 +25,7 @@ const initWebRoute = (app) => {
     router.post('/customer/cart/delete', homeController.deleteNumberOfFood);
     router.get('/customer/pay-bill', homeController.getHomePayment)
     router.get('/customer/pay-bill/handle-momo', homeController.handlePayment);
+    router.get('/customer/pay-bill/suscess', homeController.payBillcuscess);
     //log out
     router.get('/logout', homeController.getHomeLogout);
     //admin
