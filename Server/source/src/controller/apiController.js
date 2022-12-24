@@ -5,11 +5,11 @@ let getFood = async(req, res) => {
     try {
         await Connection.connect();
         Connection.request().query(`SELECT TP_MA, TP_TEN, TP_LOAI, TP_GIA, TP_IMGPATH FROM dbo.THUCPHAM`, (err, result) => {
-            if(err) {
+            if (err) {
                 console.log(err);
                 return res.status(400).json({
                     message: "0", //True
-                });   
+                });
             } else {
                 return res.status(200).json({
                     message: "1", //True
@@ -30,11 +30,11 @@ let handleLogin = async(req, res) => {
         if (UNAME && PWD) {
             await Connection.connect();
             Connection.request().query(`EXEC sp_XulyDangNhap '${UNAME}', '${PWD}'`, (err, result) => {
-                if(err) {
+                if (err) {
                     console.log(err);
                     return res.status(200).json({
                         message: "0", //True
-                    });   
+                    });
                 }
                 return res.status(200).json({
                     message: "1", //True
@@ -55,24 +55,24 @@ let handleLogin = async(req, res) => {
 
 let handleRegisterUser = async(req, res) => {
     try {
-        let {UNAME, PWD, MSSV, SDT, EMAIL} = req.body;
-        if(UNAME && PWD && MSSV && SDT && EMAIL) {
+        let { UNAME, PWD, MSSV, SDT, EMAIL } = req.body;
+        if (UNAME && PWD && MSSV && SDT && EMAIL) {
             await Connection.connect();
+            console.log("Connectted");
             Connection.request().query(`EXEC dbo.sp_themTaiKhoan @UN = '${UNAME}', @PW = '${PWD}', @MSSV = '${MSSV}', @SDT = '${SDT}',  @EMAIL = N'${EMAIL}'`, (err, result) => {
-                if(err) {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
-                    });   
+                    });
                 }
                 return res.status(200).json({
-                message: "1", //True
+                    message: "1", //True
                 });
                 // console.log(err);
             });
-            
-        }
-        else {
+
+        } else {
             return res.status(400).json({
                 message: "-1", //True
             });
@@ -93,18 +93,18 @@ let getCart = async(req, res) => {
             });
         }
         await Connection.connect();
-            Connection.request().query(`SELECT GH.ID, TP.TP_TEN, TP.TP_LOAI, GH.TP_MA, GH.GH_SOLUONG, GH.GH_TONGTIEN FROM dbo.GIOHANG GH, dbo.THUCPHAM TP WHERE TP.TP_MA = GH.TP_MA AND GH.KH_MSSV = '${MSSV}'`, (err, result) => {
-                if(err) {
-                    console.log(err);
-                    return res.status(200).json({
-                        message: "0", //True
-                    });   
-                }
+        Connection.request().query(`SELECT GH.ID, TP.TP_TEN, TP.TP_LOAI, GH.TP_MA, GH.GH_SOLUONG, GH.GH_TONGTIEN FROM dbo.GIOHANG GH, dbo.THUCPHAM TP WHERE TP.TP_MA = GH.TP_MA AND GH.KH_MSSV = '${MSSV}'`, (err, result) => {
+            if (err) {
+                console.log(err);
                 return res.status(200).json({
-                    message: "1", //True
-                    data: result.recordset
+                    message: "0", //True
                 });
+            }
+            return res.status(200).json({
+                message: "1", //True
+                data: result.recordset
             });
+        });
     } catch (error) {
         return res.status(400).json({
             message: "-2", //True
@@ -114,11 +114,11 @@ let getCart = async(req, res) => {
 
 let handleAddToCart = async(req, res) => {
     try {
-        let {TP_MA, MSSV} = req.body;
-        if(TP_MA && MSSV) {
+        let { TP_MA, MSSV } = req.body;
+        if (TP_MA && MSSV) {
             await Connection.connect();
-            Connection.request().query( `EXEC dbo.sp_themVaoGioHang @TP_MA = ${TP_MA}, @MSSV = ${MSSV}`, (err) => {
-                if(err) {
+            Connection.request().query(`EXEC dbo.sp_themVaoGioHang @TP_MA = ${TP_MA}, @MSSV = ${MSSV}`, (err) => {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
@@ -129,8 +129,7 @@ let handleAddToCart = async(req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(200).json({
                 message: "-1", //True
             });
@@ -142,13 +141,13 @@ let handleAddToCart = async(req, res) => {
     }
 }
 
-let handleRaiseNumOfFoodInCart = async (req, res) => {
+let handleRaiseNumOfFoodInCart = async(req, res) => {
     try {
-        let {GH_ID} = req.body;
-        if(GH_ID) {
+        let { GH_ID } = req.body;
+        if (GH_ID) {
             await Connection.connect();
-            Connection.request().query( `EXEC dbo.sp_tangMotTrongGioHang @GH_ID = ${GH_ID}`, (err) => {
-                if(err) {
+            Connection.request().query(`EXEC dbo.sp_tangMotTrongGioHang @GH_ID = ${GH_ID}`, (err) => {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
@@ -159,8 +158,7 @@ let handleRaiseNumOfFoodInCart = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(400).json({
                 message: "-1"
             });
@@ -170,17 +168,17 @@ let handleRaiseNumOfFoodInCart = async (req, res) => {
             message: "-2", //True
         });
     }
-    
+
 }
 
-let handleReduceNumOfFoodInCart = async (req, res) => {
+let handleReduceNumOfFoodInCart = async(req, res) => {
     try {
-        let {GH_ID} = req.body;
+        let { GH_ID } = req.body;
         console.log("server: ", req.body);
-        if(GH_ID) {
+        if (GH_ID) {
             await Connection.connect();
-            Connection.request().query( `EXEC dbo.sp_giamMotTrongGioHang @GH_ID = ${GH_ID}`, (err) => {
-                if(err) {
+            Connection.request().query(`EXEC dbo.sp_giamMotTrongGioHang @GH_ID = ${GH_ID}`, (err) => {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
@@ -191,8 +189,7 @@ let handleReduceNumOfFoodInCart = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(400).json({
                 message: "-1"
             });
@@ -202,16 +199,16 @@ let handleReduceNumOfFoodInCart = async (req, res) => {
             message: "-2", //True
         });
     }
-    
+
 }
 
-let handleRemoveFromCart = async (req, res) => {
+let handleRemoveFromCart = async(req, res) => {
     try {
-        let {GH_ID} = req.body
-        if(GH_ID) {
+        let { GH_ID } = req.body
+        if (GH_ID) {
             await Connection.connect();
-            Connection.request().query( `EXEC dbo.sp_xoaKhoiGioHang @GH_ID = ${GH_ID}`, (err) => {
-                if(err) {
+            Connection.request().query(`EXEC dbo.sp_xoaKhoiGioHang @GH_ID = ${GH_ID}`, (err) => {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
@@ -222,8 +219,7 @@ let handleRemoveFromCart = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(400).json({
                 message: "-1"
             });
@@ -233,13 +229,13 @@ let handleRemoveFromCart = async (req, res) => {
             message: "-2", //True
         });
     }
-    
+
 }
 
-let handleReceipt = async (req, res) => {
+let handleReceipt = async(req, res) => {
     try {
-        let {MSSV} = req.body;
-        if(MSSV) {
+        let { MSSV } = req.body;
+        if (MSSV) {
             await Connection.connect();
             Connection.request().query( `EXEC sp_datHangOnline '${MSSV}', N'Online'`, (err) => {
                 if(err) {
@@ -253,8 +249,7 @@ let handleReceipt = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(400).json({
                 message: "-1"
             });
@@ -264,16 +259,16 @@ let handleReceipt = async (req, res) => {
             message: "-2", //True
         });
     }
-    
+
 }
 
-let getReceipt = async (req, res) => {
+let getReceipt = async(req, res) => {
     try {
-        let {MSSV} = req.body;
-        if(MSSV) {
+        let { MSSV } = req.body;
+        if (MSSV) {
             await Connection.connect();
-            Connection.request().query( `SELECT h.HD_MA, h.HD_NGAYLAP, h.HD_TONGTIEN FROM HOADON h WHERE h.KH_MSSV = '${MSSV}'`, (err, result) => {
-                if(err) {
+            Connection.request().query(`SELECT h.HD_MA, h.HD_NGAYLAP, h.HD_TONGTIEN FROM HOADON h WHERE h.KH_MSSV = '${MSSV}'`, (err, result) => {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
@@ -285,8 +280,7 @@ let getReceipt = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(400).json({
                 message: "-1"
             });
@@ -296,16 +290,16 @@ let getReceipt = async (req, res) => {
             message: "-2", //True
         });
     }
-    
+
 }
 
-let getDetailReceipt = async (req, res) => {
+let getDetailReceipt = async(req, res) => {
     try {
-        let {HD_ID} = req.body;
-        if(HD_ID) {
+        let { HD_ID } = req.body;
+        if (HD_ID) {
             await Connection.connect();
-            Connection.request().query( `SELECT T.TP_TEN, c.CTDH_SOLUONG, c.CTDH_MA_DONGIA FROM CHITIETHOADON c JOIN THUCPHAM t ON c.TP_MA = t.TP_MA WHERE c.HD_MA = ${HD_ID}`, (err, result) => {
-                if(err) {
+            Connection.request().query(`SELECT T.TP_TEN, c.CTDH_SOLUONG, c.CTDH_MA_DONGIA FROM CHITIETHOADON c JOIN THUCPHAM t ON c.TP_MA = t.TP_MA WHERE c.HD_MA = ${HD_ID}`, (err, result) => {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
@@ -317,8 +311,7 @@ let getDetailReceipt = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(400).json({
                 message: "-1"
             });
@@ -328,16 +321,16 @@ let getDetailReceipt = async (req, res) => {
             message: "-2", //True
         });
     }
-    
+
 }
 
-let handleReportOnDay = async(req,res) => {
+let handleReportOnDay = async(req, res) => {
     try {
-        let {DAY, MONTH, YEAR} = req.body;
-        if(DAY && MONTH && YEAR) {
+        let { DAY, MONTH, YEAR } = req.body;
+        if (DAY && MONTH && YEAR) {
             await Connection.connect();
-            Connection.request().query( `exec sp_reportOnDay ${DAY}, ${MONTH}, ${YEAR}`, (err, result) => {
-                if(err) {
+            Connection.request().query(`exec sp_reportOnDay ${DAY}, ${MONTH}, ${YEAR}`, (err, result) => {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
@@ -349,8 +342,7 @@ let handleReportOnDay = async(req,res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(400).json({
                 message: "-1"
             });
@@ -359,16 +351,16 @@ let handleReportOnDay = async(req,res) => {
         return res.status(400).json({
             message: "-2", //True
         });
-    }   
+    }
 }
 
-let handleReportOnDayOfEmployee = async (req, res) => {
+let handleReportOnDayOfEmployee = async(req, res) => {
     try {
-        let {NV_ID, DAY, MONTH, YEAR} = req.body;
-        if(NV_ID && DAY && MONTH && YEAR) {
+        let { NV_ID, DAY, MONTH, YEAR } = req.body;
+        if (NV_ID && DAY && MONTH && YEAR) {
             await Connection.connect();
-            Connection.request().query( `exec sp_reportOnDayofEachEmployee ${NV_ID},${DAY}, ${MONTH}, ${YEAR}`, (err, result) => {
-                if(err) {
+            Connection.request().query(`exec sp_reportOnDayofEachEmployee ${NV_ID},${DAY}, ${MONTH}, ${YEAR}`, (err, result) => {
+                if (err) {
                     console.log(err);
                     return res.status(400).json({
                         message: "0", //True
@@ -380,8 +372,7 @@ let handleReportOnDayOfEmployee = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(400).json({
                 message: "-1"
             });
@@ -390,16 +381,16 @@ let handleReportOnDayOfEmployee = async (req, res) => {
         return res.status(400).json({
             message: "-2", //True
         });
-    }   
+    }
 }
 
-let handleReportInMonth = async (req, res) => {
+let handleReportInMonth = async(req, res) => {
     try {
-        let {MONTH, YEAR} = req.body;
-        if(MONTH && YEAR) {
+        let { MONTH, YEAR } = req.body;
+        if (MONTH && YEAR) {
             await Connection.connect();
-            Connection.request().query( `exec sp_reportOnMonth ${MONTH}, ${YEAR}`, (err, result) => {
-                if(err) {
+            Connection.request().query(`exec sp_reportOnMonth ${MONTH}, ${YEAR}`, (err, result) => {
+                if (err) {
                     console.log(err);
                     return res.status(200).json({
                         message: "0", //True
@@ -411,8 +402,7 @@ let handleReportInMonth = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(200).json({
                 message: "-1"
             });
@@ -421,16 +411,16 @@ let handleReportInMonth = async (req, res) => {
         return res.status(400).json({
             message: "-2", //True
         });
-    }   
+    }
 }
 
-let handleAddCookedFood = async (req, res) => {
+let handleAddCookedFood = async(req, res) => {
     try {
-        let {NAMEFOOD, PRICEFOOD} = req.body;
-        if(NAMEFOOD && PRICEFOOD) {
+        let { NAMEFOOD, PRICEFOOD } = req.body;
+        if (NAMEFOOD && PRICEFOOD) {
             await Connection.connect();
-            Connection.request().query( `EXEC sp_themMonAnQuaNau  N'${NAMEFOOD}', ${PRICEFOOD}`, (err, result) => {
-                if(err) {
+            Connection.request().query(`EXEC sp_themMonAnQuaNau  N'${NAMEFOOD}', ${PRICEFOOD}`, (err, result) => {
+                if (err) {
                     console.log(err);
                     return res.status(200).json({
                         message: "0", //True
@@ -442,8 +432,7 @@ let handleAddCookedFood = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(200).json({
                 message: "-1"
             });
@@ -452,16 +441,16 @@ let handleAddCookedFood = async (req, res) => {
         return res.status(400).json({
             message: "-2", //True
         });
-    } 
+    }
 }
 
-let handleAddFastFood = async (req, res) => {
+let handleAddFastFood = async(req, res) => {
     try {
-        let {NAMEFOOD, PRICEFOOD, SOLUONG, NGAYSX, GIANHAP, HANSD} = req.body;
-        if(NAMEFOOD && PRICEFOOD && SOLUONG && NGAYSX && GIANHAP && HANSD) {
+        let { NAMEFOOD, PRICEFOOD, SOLUONG, NGAYSX, GIANHAP, HANSD } = req.body;
+        if (NAMEFOOD && PRICEFOOD && SOLUONG && NGAYSX && GIANHAP && HANSD) {
             await Connection.connect();
-            Connection.request().query( `EXEC sp_themMatHang  N'${NAMEFOOD}', ${PRICEFOOD}, ${SOLUONG}, '${NGAYSX}', ${GIANHAP}, '${HANSD}'`, (err, result) => {
-                if(err) {
+            Connection.request().query(`EXEC sp_themMatHang  N'${NAMEFOOD}', ${PRICEFOOD}, ${SOLUONG}, '${NGAYSX}', ${GIANHAP}, '${HANSD}'`, (err, result) => {
+                if (err) {
                     console.log(err);
                     return res.status(200).json({
                         message: "0", //True
@@ -473,8 +462,7 @@ let handleAddFastFood = async (req, res) => {
                     });
                 }
             })
-        }
-        else {
+        } else {
             return res.status(200).json({
                 message: "-1"
             });
@@ -483,7 +471,7 @@ let handleAddFastFood = async (req, res) => {
         return res.status(400).json({
             message: "-2", //True
         });
-    } 
+    }
 }
 
 module.exports = {

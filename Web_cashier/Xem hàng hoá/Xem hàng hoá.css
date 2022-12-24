@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --gray: #D0D0D0;
+    --strong_blue: #273E74;
+    --brown: #D67128;
+    --blue: #285CD6;
+    --light_blue: rgba(0, 132, 255, 0.64);
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+    background-color: var(--gray);
+}
+
+.navbar li a {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--strong_blue);
+}
+
+.navbar li a:hover {
+    cursor: pointer;
+    color: aliceblue;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+}
+
+.left_top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.left_top img {
+    width: 20%;
+    object-fit: cover;
+}
+
+.branch {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.branch span {
+    text-transform: uppercase;
+    color: var(--strong_blue);
+}
+
+.branch span:nth-child(1) {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.right_top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+}
+
+.right_top span {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--strong_blue);
+    font-style: italic;
+}
+
+
+.detail {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--strong_blue);
+    line-height: 3rem;
+    width: 100%;
+
+}
+
+.detail span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    background-color: var(--strong_blue);
+}
+
+.list_product {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list_product table {
+    width: 100%;
+}
+
+.list_product>table>thead>tr {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-around; */
+}
+
+.list_product>table>thead>tr {
+    height: 3rem;
+    margin-bottom: 1rem;
+}
+
+.list_product>table>tbody {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+.list_product>table>tbody::-webkit-scrollbar {
+    display: none;
+}
+
+.list_product>table>tbody {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.list_product>table>tbody>tr {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.list_product>table>thead>tr>th {
+    border-left: 1px solid var(--strong_blue);
+}
+
+.list_product>table>tbody>tr>th {
+    border-left: 1px solid rgba(75, 87, 98, 0.338);
+}
+
+.list_product>table>thead>tr>th:nth-child(1),
+.list_product>table>tbody>tr>th:nth-child(1) {
+    width: 5%;
+    border-left: none;
+}
+
+.list_product>table>thead>tr>th:nth-child(2),
+.list_product>table>tbody>tr>th:nth-child(2) {
+    width: 25%;
+}
+
+.list_product>table>thead>tr>th:nth-child(3),
+.list_product>table>tbody>tr>th:nth-child(3) {
+    width: 15%;
+}
+
+.list_product>table>thead>tr>th:nth-child(4),
+.list_product>table>tbody>tr>th:nth-child(4) {
+    width: 25%;
+}
+
+.list_product>table>thead>tr>th:nth-child(5),
+.list_product>table>tbody>tr>th:nth-child(5) {
+    width: 10%;
+}
+
+.list_product>table>thead>tr>th:nth-child(6),
+.list_product>table>tbody>tr>th:nth-child(6) {
+    width: 10%;
+}
+
+.list_product>table>thead>tr>th:nth-child(7),
+.list_product>table>tbody>tr>th:nth-child(7) {
+    width: 10%;
+}
+
+.list_product a {
+    font-size: 1.4rem;
+}
+
+.fill {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 0;
+    border-top: 1px solid var(--strong_blue);
+}
+
+.fill>input {
+    height: 2rem;
+    padding: 0 0.5rem;
+    outline: none;
+}
+
+.fill>input:nth-child(1) {
+    width: 25%;
+}
+
+.fill>input:nth-child(2) {
+    width: 15%;
+}
+
+.fill>input:nth-child(3) {
+    width: 25%;
+}
+
+.fill>input:nth-child(4) {
+    width: 10%;
+}
+
+.fill>input:nth-child(5) {
+    width: 10%;
+}

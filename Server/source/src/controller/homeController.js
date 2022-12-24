@@ -343,11 +343,11 @@ let handlePayment = async (req, res) => {
     try {
         let {LOAITK, MSSV} = req.session;
         if(LOAITK === 'NHANVIEN'.trim()) {
-            return res.redirect('/admin');
+            return res.redirect('/employee');
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
             let data = [];
-            fetch('http://localhost:1111/api/handle-receipt', {
+            fetch('http://localhost:1111/api/cart', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -358,9 +358,13 @@ let handlePayment = async (req, res) => {
             .then(response => response.json())
             .then(response => {
                 if(response["message"] == 1) {
-                    return res.render('img.ejs', {data: data});
+                    data = response["data"];
+                    let totalPrice = 0;
+                    data.forEach(element => { totalPrice += element.GH_TONGTIEN });
+                    req.session.totalPrice = totalPrice;
+                    return res.render('ClientView/cart.ejs', {data: data});
                 } else {
-                    return res.redirect('/');
+                    
                 }
             })
         }
