@@ -951,7 +951,7 @@ PROC sp_themChiTietDonNhapHang
 AS 
 BEGIN TRANSACTION
 	BEGIN TRY
-		IF(@ten IS NULL AND @giaban IS NULL AND @sl IS NULL AND @gianhap IS NULL AND @hsd IS NULL AND @nsx IS NULL)
+		IF(@ten IS NULL AND @giaban IS NULL AND @sl IS NULL AND @gianhap IS NULL AND @hsd IS NULL)
 		BEGIN
         	RAISERROR(861, -1,-1, 'sp_themMatHang NULL')
 			ROLLBACK
@@ -969,7 +969,7 @@ BEGIN TRANSACTION
         END
 		SELECT @idtp = @idtp FROM MATHANG m WHERE TP_TEN = @ten
 		INSERT INTO CHITIETDONNHAPHANG (DNH_MA, TP_MA, CTDNH_SOLUONG, CTDNH_DONGIA)
-		VALUES (@id_dh, @idtp, @gianhap * @sl)
+		VALUES (@id_dh, @idtp, @sl, @gianhap * @sl)
 	END TRY
 	BEGIN CATCH
 		RAISERROR(936, -1,-1, 'sp_themChiTietDonNhapHang catch')
