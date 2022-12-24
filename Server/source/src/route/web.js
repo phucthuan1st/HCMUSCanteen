@@ -34,6 +34,7 @@ const initWebRoute = (app) => {
     router.get('/admin/food', homeController.getDataFoodAdmin);
     router.post('/admin/add-to-cart', homeController.handleAdminAddToCart);
     router.post('/admin/delete-from-cart', homeController.handleAdminDeleteFromCart);
+    router.post('/admin/handle-payment', homeController.handleAdminPayment);
     router.get('/employee', homeController.gethomeEmployee);
 
     router.get('/employee/goods', homeController.getGoods)

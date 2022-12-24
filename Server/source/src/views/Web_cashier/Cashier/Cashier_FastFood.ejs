@@ -19,7 +19,7 @@
     <section>
         <div class="title">
             <div class="call">
-                <a href="#">
+                <a href="/employee">
                     <span><%= ten %></span>
                     <span> - Mã nhân viên:
                         <span><%= ma %></span>
@@ -115,9 +115,11 @@
                             <span><%= totalPrice %></span>
                         </div>
                     </div>
-                    <div class="bottom_order">
+                    <div class="bottom_order" >
                         <div class="btn_pay">
-                            <button>Thanh toán</button>
+                            <form action="/admin/handle-payment" method="post">
+                                <button>Thanh toán</button>
+                            </form>
                         </div>
                         <div class="btn_orthe">
                             <div>
