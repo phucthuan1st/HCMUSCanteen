@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../resert.css">
+    <link rel="stylesheet" href="./product detail.css">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <title>IMPORT SLIP</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <li>
+            <a href="#">Quay lại</a>
+        </li>
+        <li>
+            <a style="display:none" href="#">Lập phiếu nhập hàng</a>
+        </li>
+        <li>
+            <a href="#">Đăng xuất</a>
+        </li>
+    </nav>
+    <section>
+        <div class="container">
+            <div class="detail">
+                <span>Thông tin hàng hoá</span>
+                <div class="top">
+                    <div class="left_top">
+                        <label for="name_prod">Tên hàng hoá
+                            <input for="name_prod" type="text" placeholder="Tên hàng hoá" value="Cocacola 13ml">
+                        </label>
+                        <label for="price">Giá niêm yếu
+                            <input name="price" type="text" placeholder="Giá niêm yếu" value="10.000đ">
+                        </label>
+
+                    </div>
+                    <div class="right_top">
+                        <label for="kind_prod">Loại hàng hoá
+                            <input for="kind_prod" type="text" placeholder="Loại hàng hoá" value="Đồ ăn liền">
+                        </label>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <span>Lịch sử nhập hàng:</span>
+                    <span>Số lượng tồn:
+                        <span>345</span>
+                    </span>
+                </div>
+                <div class="list_product">
+                    <div class="order">
+                        <div class="left_order">
+                            <div class="id_order">
+                                <div class="id_">
+                                    <span>Phiếu #</span>
+                                    <span>HD004302012023</span>
+                                </div>
+                            </div>
+                            <div class="detail_order">
+                                <div class="time_order">
+                                    <span>10h30</span>
+                                    <span>-</span>
+                                    <span>02/01/2023</span>
+                                </div>
+                                <div class="food_order"
+                                    style="overflow: hidden;text-overflow: clip;white-space: nowrap; ">
+                                    <div class="food">
+                                        <span>x500</span>
+                                        <span>Sting</span>
+                                        <span>,</span>
+                                    </div>
+                                </div>
+                                <div class="payment_method">
+                                    <span>Người lập: </span>
+                                    <span>Nguyễn Đức Minh Quân</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right_order">
+                            <a href="#">></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fill">
+                    <button>Xác nhận</button>
+                    <button class="open-button" onclick="openFormFirst()">Nhập thêm</button>
+                    <button>Khoá bán</button>
+                    <button>Thống kê</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="form-popup" id="myFormFirst">
+        <form action="#" class="form-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên hàng hoá</th>
+                        <th>Số lượng</th>
+                        <th>Giá bán</th>
+                        <th>Giá nhập hàng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>01</th>
+                        <th>Cocacola 330ml</th>
+                        <th>345</th>
+                        <th>10.000đ</th>
+                        <th>8.000đ</th>
+                        <th>
+                            <a href="#">
+                                <i class='fa fa-file-text'></i>
+                            </a>
+                            <a href="#">
+                                <i class='fa fa-trash'></i>
+                            </a>
+                        </th>
+
+                        <!-- Không bỏ nhá -->
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <button class="open-button" onclick="openFormSecond()">
+                                <i class='fa fa-plus'></i>
+                            </button>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button type="submit" class="btn">Thêm phiếu nhập</button>
+                <button type="button" class="btn cancel" onclick="closeFormFirst()">Close</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="form-popup-second" id="myFormSecond">
+        <form action="#" class="form-container-second">
+            <div>
+                <label for="Name"><b>Tên hàng hoá</b>
+                    <input type="text" placeholder="Enter name product" name="Name" required>
+                </label>
+
+                <label for="quantity"><b>Số lượng</b>
+                    <input type="text" placeholder="Enter quantity of imported goods " name="quantity" required>
+                </label>
+            </div>
+            <div>
+                <label for="sale"><b>Giá bán</b>
+                    <input type="text" placeholder="Enter price" name="sale" required>
+                </label>
+
+                <label for="price"><b>Lương cơ bản</b>
+                    <input type="text" placeholder="Enter entry price " name="price" required>
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="btn">Thêm mặt hàng</button>
+                <button type="button" class="btn cancel" onclick="closeFormSecond()">Close</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function openFormFirst() {
+            document.getElementById("myFormFirst").style.display = "block";
+        }
+
+        function closeFormFirst() {
+            document.getElementById("myFormFirst").style.display = "none";
+
+        }
+        function openFormSecond() {
+            document.getElementById("myFormSecond").style.display = "block";
+        }
+
+        function closeFormSecond() {
+            document.getElementById("myFormSecond").style.display = "none";
+
+        }   
+    </script>
+</body>
+
+</html>
