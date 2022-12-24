@@ -3,7 +3,7 @@ import homeController from '../controller/homeController';
 
 let router = express.Router();
 
-const initWebRoute = (app) =>{
+const initWebRoute = (app) => {
     router.get('/', homeController.getHomepage);
     router.get('/user/cart', homeController.getHomeCart)
     router.post('/create-new-food', homeController.createNewFood)
@@ -34,6 +34,8 @@ const initWebRoute = (app) =>{
     router.get('/admin/food', homeController.getDataFoodAdmin);
     router.post('/admin/add-to-cart', homeController.handleAdminAddToCart);
     router.post('/admin/delete-from-cart', homeController.handleAdminDeleteFromCart);
+    router.post('/employee/', homeController.gethomeEmployee);
+    router.get('/employee/day-report', homeController.getEmployeeDayReport);
     return app.use('/', router);
 }
 

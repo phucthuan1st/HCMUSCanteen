@@ -533,14 +533,14 @@ let handleAdminDeleteFromCart = async(req, res) => {
         })
 }
 
-let handleEmployeeDayReport = async(req, res) => {
+let getEmployeeDayReport = async(req, res) => {
     try {
         let { DAY, MONTH, YEAR } = req.body;
 
         //validate request from web sent
 
         fetch('localhost:1111/api/employee/report-on-day', {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -598,5 +598,5 @@ module.exports = {
     handleAdminDeleteFromCart,
 
     //employee
-    handleEmployeeDayReport
+    getEmployeeDayReport
 }
