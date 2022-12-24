@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root {
+    --gray: #D0D0D0;
+    --strong_blue: #273E74;
+    --brown: #D67128;
+    --blue: #285CD6;
+    --light_blue: rgba(179, 218, 255, 0.5);
+    --light_brown: rgba(255, 220, 179, 0.5);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+}
+
+html {
+    font-size: 16px;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+    background-color: var(--gray);
+}
+
+.navbar li a {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--strong_blue);
+}
+
+.navbar li a:hover {
+    cursor: pointer;
+    color: aliceblue;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+}
+
+.left_top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.left_top img {
+    width: 20%;
+    object-fit: cover;
+}
+
+.branch {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.branch span {
+    text-transform: uppercase;
+    color: var(--strong_blue);
+}
+
+.branch span:nth-child(1) {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.right_top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+}
+
+.right_top span {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--strong_blue);
+    font-style: italic;
+}
+
+
+.detail {
+
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--strong_blue);
+    line-height: 3rem;
+    width: 100%;
+
+}
+
+.detail>span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--strong_blue);
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.list_product {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--strong_blue);
+    overflow-y: scroll;
+    width: 100%;
+    height: 80vh;
+    align-items: center;
+}
+
+.title>ul .list_product {
+    border-bottom: 1px solid var(--strong_blue);
+    overflow-y: scroll;
+    width: 100%;
+    height: 50vh;
+}
+
+.order {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--light_blue);
+    width: 98%;
+    box-shadow: 1px 1px 4px var(--gray);
+    margin-top: 1rem;
+    line-height: 2rem;
+}
+
+.order:active {
+    background-color: var(--light_brown);
+}
+
+.left_order {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.id_order {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.detail_order {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-size: 0.8rem;
+}
+
+.time_order {
+    width: 20%;
+}
+
+.food_order {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+}
+
+.payment_method {
+    margin-left: 4rem;
+    width: 20%;
+}
+
+.right_order {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    width: 5%;
+    font-size: 1.8rem;
+}
+
+.right_order a:hover {
+    cursor: pointer;
+    color: #fff
+}
+
+.fill {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: max-content;
+    min-height: 4rem;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.fill input {
+    width: calc(100%/3 - 8rem);
+    padding: 0.4rem 1rem;
+    outline: none;
+}

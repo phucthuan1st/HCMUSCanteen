@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="../Resources/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/img/Resources/favicon.ico">
     <title>Document</title>
 </head>
 
@@ -17,7 +17,7 @@
 
     <!------ HTML Element ----->
     <div class="logo-and-name">
-        <img class="small-logo" src="../Resources/logoHCMUS.png">
+        <img class="small-logo" src="/img/Resources/logoHCMUS.png">
         <p class="interFontText" id="labelCanteen" style="font-size:3.5vw; margin-top:7vh">
             CĂN TIN <br> TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN
         </p>
@@ -35,18 +35,20 @@
         Chọn phương thức thanh toán
     </span>
     <div class="payment-method">
-        <button>
-            <img src="../Resources/logoHCMUS.png" alt="payment-provider" style="width: 15vw; height:15vw">
-            <span>Ví MoMo</span>
-        </button>
-        <button>
-            <img src="../Resources/logoHCMUS.png" alt="payment-provider" style="width: 15vw; height:15vw">
-            <span>Smart Banking / Internet Banking</span>
-        </button>
-        <button>
-            <img src="../Resources/logoHCMUS.png" alt="payment-provider" style="width: 15vw; height:15vw">
-            <span>VNQR-PAY</span>
-        </button>
+        <form action="/customer/pay-bill/handle-momo" method="get">
+            <button>
+                <img src="/img/Resources/logoHCMUS.png" alt="payment-provider" style="width: 15vw; height:15vw">
+                <span>Ví MoMo</span>
+            </button>
+            <button>
+                <img src="/img/Resources/logoHCMUS.png" alt="payment-provider" style="width: 15vw; height:15vw">
+                <span>Smart Banking / Internet Banking</span>
+            </button>
+            <button>
+                <img src="/img/Resources/logoHCMUS.png" alt="payment-provider" style="width: 15vw; height:15vw">
+                <span>VNQR-PAY</span>
+            </button>
+        </form>
     </div>
     <div>
         <form action="/" method="get">

@@ -29,7 +29,7 @@ let handleLogin = async(req, res) => {
         let { UNAME, PWD } = req.body;
         if (UNAME && PWD) {
             await Connection.connect();
-            Connection.request().query(`SELECT MA, LOAITK FROM TAIKHOAN WHERE UNAME = N'${UNAME}' AND PWD = N'${PWD}'`, (err, result) => {
+            Connection.request().query(`EXEC sp_XulyDangNhap '${UNAME}', '${PWD}'`, (err, result) => {
                 if(err) {
                     console.log(err);
                     return res.status(200).json({
@@ -241,7 +241,7 @@ let handleReceipt = async (req, res) => {
         let {MSSV} = req.body;
         if(MSSV) {
             await Connection.connect();
-            Connection.request().query( `EXEC sp_datHangOnline '${MSSV}', N'Thanh toán online'`, (err) => {
+            Connection.request().query( `EXEC sp_datHangOnline '${MSSV}', N'Online'`, (err) => {
                 if(err) {
                     console.log(err);
                     return res.status(400).json({

@@ -282,7 +282,7 @@ html {
     white-space: nowrap;
 }
 
-.top_food_chosen>button {
+.top_food_chosen button {
     border: none;
     background-color: #5d85e1;
     color: #fff;
@@ -291,7 +291,7 @@ html {
     margin-left: 0.5rem;
 }
 
-.top_food_chosen>button:hover {
+.top_food_chosen button:hover {
     cursor: pointer;
     opacity: 0.6;
 }

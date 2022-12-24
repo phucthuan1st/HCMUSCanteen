@@ -1,3 +1,4 @@
+
 .logo {
     display: block;
     width: min(50vw, 30vh);
@@ -14,12 +15,6 @@
     margin-left: 5vw;
     margin-right: auto;
     margin-top: 5vh;
-}
-
-.interFontText {
-    font-family: 'Inter';
-    font-style: bold;
-    font-weight: 700;
 }
 
 .logo-and-name {
@@ -76,7 +71,7 @@ ul.contactInfo {
     margin-right: auto;
 }
 
-ul.contactInfo li.interFontText {
+ul.contactInfo li {
     text-align: left;
     list-style: none;
     margin-left: auto;
@@ -184,4 +179,105 @@ form.product-search input[type="submit"] {
 .product .addbutton {
     width: 15%;
     border-radius: 10px;
+}
+
+html {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+}
+
+.payment-label {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3vh;
+    text-align: center;
+    font-size: 2.5vh;
+}
+
+.payment-amount {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3vh;
+    text-align: center;
+    font-size: 6vh;
+    color: #FF0000;
+}
+
+.payment-method {
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin-top: 3vh;
+}
+
+.payment-method button {
+    width: 80%;
+    height: 7vh;
+    margin-bottom: 3vh;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: none;
+    background: #F2E8E8;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    display: inline-block;
+}
+
+button img {
+    width: 20%;
+    vertical-align: middle;
+}
+
+button span {
+    vertical-align: middle;
+    width: 70%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.return {
+    background: #D9D9D9;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    text-align: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 45vw;
+    height: 5vh;
+    border: none;
+}
+
+.devoice-frame {
+    width: 90%;
+    height: 50vh;
+    margin-top: 10%;
+    background-color: #BBD6F7;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5vh;
+}
+
+.devoice-table {
+    margin: 0 auto;
+    border-spacing: 5vw;
+}
+
+.devoice-table td,
+.devoice-table th {
+    padding-bottom: 2vh;
+}
+
+td.label {
+    text-align: right;
+}
+
+td.content {
+    text-align: left;
 }

@@ -1,13 +1,13 @@
 import Connection from "../configs/connectDB";
 import session from 'express-session'
-import alert from 'alert'
+import { request } from "express";
 
 let getHomepage = async (req, res) => {
     //logic
     try {
         let {ID, LOAITK, MA} = req.session;
         if(LOAITK === 'NHANVIEN'.trim()) {
-            return res.redirect('/employee');
+            return res.redirect('/admin');
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
             return res.redirect('/customer');
@@ -63,7 +63,7 @@ let getHomeCustomer  = async (req, res) => {
 
 let getHomeCart = async (req, res) => {
     try {
-        let {ID, LOAITK, MA} = req.session;
+        let {LOAITK, MSSV} = req.session;
         if(LOAITK === 'NHANVIEN'.trim()) {
             return res.redirect('/employee');
         }
@@ -75,12 +75,15 @@ let getHomeCart = async (req, res) => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"MSSV": MA})
+                body: JSON.stringify({"MSSV": MSSV})
             })
             .then(response => response.json())
             .then(response => {
                 if(response["message"] == 1) {
                     data = response["data"];
+                    let totalPrice = 0;
+                    data.forEach(element => { totalPrice += element.GH_TONGTIEN });
+                    req.session.totalPrice = totalPrice;
                     return res.render('ClientView/cart.ejs', {data: data});
                 } else {
                     
@@ -129,7 +132,7 @@ let updateFood = async (req, res) => {
 }
 
 let addFoodToCart = async (req, res) => {
-    let {ID, LOAITK, MA} = req.session;
+    let {LOAITK, MSSV} = req.session;
     let {TP_MA} = req.body;
     let data = [];
     fetch('http://localhost:1111/api/add-to-cart', {
@@ -138,16 +141,16 @@ let addFoodToCart = async (req, res) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"MSSV": MA, "TP_MA": TP_MA})
+        body: JSON.stringify({"MSSV": MSSV, "TP_MA": TP_MA})
     })
     .then(response => response.json())
     .then(response => {
+        console.log("response.message:   ", response.message);
         if(response["message"] == 1) {
             data = response["data"];
-            console.log("check data>>>>>>>>>>>>>> ",data);
             return res.redirect('/customer');
         } else {
-            
+            return res.redirect('/customer');
         }
     })
 }
@@ -243,9 +246,9 @@ let loginUser = async (req, res) => {
         .then(response => {
             if(response["message"] == 1 && response["data"].length > 0) {
                 const data = response["data"];
-                req.session.ID = data[0].ID;
                 req.session.LOAITK = data[0].LOAITK.trim();
                 req.session.MA = data[0].MA;
+                req.session.MSSV = data[0].MSSV;
                 res.redirect('/customer');
             }
             else {
@@ -284,7 +287,7 @@ let reduceNumberOfFood = async (req, res) => {
 }
 
 let deleteNumberOfFood = async (req, res) => {
-    let {LOAITK, MA} = req.session;
+    let {LOAITK, MSSV} = req.session;
     let {GH_ID} = req.body;
     fetch('http://localhost:1111/api/remove-from-cart', {
         method: 'POST',
@@ -323,7 +326,7 @@ let getHomePayment = async (req, res) => {
             return res.redirect('/employee');
         }
         else if (LOAITK === 'KHACHHANG'.trim()) {
-            return res.render('customer/payment.ejs', {totalPrice: req.session.totalPrice});
+            return res.render('ClientView/payment.ejs', {totalPrice: req.session.totalPrice});
         }
         else if (LOAITK === 'ADMIN'.trim()){
             return res.redirect('/admin');
@@ -337,10 +340,256 @@ let getHomePayment = async (req, res) => {
 }
 
 let handlePayment = async (req, res) => {
+    try {
+        let {LOAITK, MSSV} = req.session;
+        if(LOAITK === 'NHANVIEN'.trim()) {
+            return res.redirect('/admin');
+        }
+        else if (LOAITK === 'KHACHHANG'.trim()) {
+            let data = [];
+            fetch('http://localhost:1111/api/handle-receipt', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"MSSV": MSSV})
+            })
+            .then(response => response.json())
+            .then(response => {
+                if(response["message"] == 1) {
+                    return res.render('img.ejs', {data: data});
+                } else {
+                    return res.redirect('/');
+                }
+            })
+        }
+        else if (LOAITK === 'ADMIN'.trim()){
+            return res.redirect('/admin');
+        }
+        else{
+            return res.redirect('/');  
+        }
+    } catch (error) {
+         console.log("ERROR: ", error);
+    }
+    
+}
+//
+let getHomeLogout = async (req, res) => { 
+    const {LOAITK} = req.session;
+    req.session.destroy();
+    if(LOAITK === 'NHANVIEN' || LOAITK === 'ADMIN') {
+        return res.redirect('/admin');
+    }else
+        return res.redirect('/');
+}
+// admin
+let getLoginAdmin = async (req, res) => {
+    let {LOAITK} = req.session;
+    if (LOAITK === 'ADMIN'.trim() || LOAITK === 'NHANVIEN'.trim()) {
+        return res.redirect('/admin');
+    }else {
+        return res.render('Web_cashier/login/login.ejs');
+    }
+}
+
+let handleloginAdmin = async (req, res) => {
+    try {
+        let {UNAME, PWD} = req.body;
+        fetch('http://localhost:1111/api/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "UNAME": UNAME, "PWD": PWD})
+        })
+        .then(response => response.json())
+        .then(response => {
+            if(response["message"] == 1 && response["data"].length > 0) {
+                const data = response["data"];
+                if(data[0].LOAITK.trim() === 'ADMIN'){
+                    req.session.LOAITK = data[0].LOAITK.trim();
+                    req.session.MA = data[0].MA;
+                    req.session.TEN = "ADMIN";
+                    res.redirect('/admin');
+                }
+                else if(data[0].LOAITK.trim() === 'NHANVIEN'){
+                    req.session.MA = data[0].MA;
+                    req.session.LOAITK = data[0].LOAITK.trim();
+                    req.session.TEN = data[0].TEN;
+                    console.log(req.session);
+                    res.redirect('/admin');
+                }
+                else {
+                    return res.redirect('/admin/login');
+                }
+            }
+            else {
+                return res.redirect('/admin/login');
+            }
+        })
+        
+    } catch (error) {
+        console.log("ERROR: ", error);
+    }
+    finally {
+        Connection.close();
+    }
+}
+
+let gethomeAdmin = async (req, res) => {
+    console.log(req.session);
+    let {LOAITK, MA} = req.session;
+    if (LOAITK === 'ADMIN' || LOAITK === 'NHANVIEN'.trim()) {
+        let data = [];
+        fetch('http://localhost:1111/api/food', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify()
+        })
+        .then(response => response.json())
+        .then(response => {
+            if(response["message"] == 1) {
+                data = response["data"];
+                data = data.filter(element => {
+                    return element.TP_LOAI === 'Đồ nấu';
+                });
+                // api cart
+                let data2 = [];
+                fetch('http://localhost:1111/api/cart', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({"MSSV": MA})
+                })
+                .then(response2 => response2.json())
+                .then(response2 => {
+                    if(response2["message"] == 1) {
+                        data2 = response2["data"];
+                        let totalPrice = 0;
+                        data2.forEach(element => { totalPrice += element.GH_TONGTIEN });
+                        return res.render('Web_cashier/Cashier/Cashier_Cook.ejs', {data: data, cart: data2, totalPrice: totalPrice, ma: req.session.MA, ten: req.session.TEN});
+                    } else {
+                        return res.redirect('/admin/login');
+                    }
+                })
+            } else {
+                return res.redirect('/admin/login');
+            }
+        })
+    }
+    else { 
+        return res.redirect('/admin/login');
+    }
+}
+
+let getDataFoodAdmin = async (req, res) => {
+    let {LOAITK, MA} = req.session;
+    if (LOAITK === 'ADMIN' || LOAITK === 'NHANVIEN') {
+        let data = [];
+        fetch('http://localhost:1111/api/food', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify()
+        })
+        .then(response => response.json())
+        .then(response => {
+            if(response["message"] == 1) {
+                data = response["data"];
+                data = data.filter(element => {
+                    return element.TP_LOAI === 'Đồ ăn liền';
+                });
+                // api cart
+                let data2 = [];
+                fetch('http://localhost:1111/api/cart', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({"MSSV": MA})
+                })
+                .then(response2 => response2.json())
+                .then(response2 => {
+                    if(response2["message"] == 1) {
+                        data2 = response2["data"];
+                        let totalPrice = 0;
+                        data2.forEach(element => { totalPrice += element.GH_TONGTIEN });
+                        return res.render('Web_cashier/Cashier/Cashier_FastFood.ejs', {data: data, cart: data2, totalPrice: totalPrice,  ma: req.session.MA, ten: req.session.TEN});
+                    } else {
+                        return res.redirect('/admin/login');
+                    }
+                })                
+            } else {
+                return res.redirect('/admin/login');
+            }
+        })
+    }
+    else { 
+        return res.redirect('/admin/login');
+    }
+}
+
+let handleAdminAddToCart = async (req, res) => {
     let {ID, LOAITK, MA} = req.session;
-    await Connection.connect();
-    Connection.request().query(`EXEC dbo.sp_datHang @KH_MA = ${MA}, @HINHTHUCTHANHTOAN = N'Thanh toán trực tuyến'`);
-    return res.render('customer/receipt.ejs');
+    let {TP_MA, CHECK} = req.body;
+    let data = [];
+    fetch('http://localhost:1111/api/add-to-cart', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"MSSV": MA, "TP_MA": TP_MA})
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response["message"] == 1) {
+            if(CHECK === '1') {
+                return res.redirect('/admin/food');
+            }
+            else 
+                return res.redirect('/admin');
+        } else {
+            
+        }
+    })
+
+}
+
+let handleAdminDeleteFromCart = async (req, res) => {
+    let {LOAITK, MA} = req.session;
+    let {GH_ID, CHECK} = req.body;
+    fetch('http://localhost:1111/api/remove-from-cart', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"GH_ID": GH_ID})
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response["message"] == 1) {
+            if(CHECK === '1') {
+                return res.redirect('/admin/food');
+            }
+            else 
+                return res.redirect('/admin');
+        } else {
+            return res.redirect('/customer');
+        }
+    })
 }
 
 
@@ -365,5 +614,14 @@ module.exports = {
     reduceNumberOfFood,
     getHomePayment,
     handlePayment,
-    deleteNumberOfFood
+    deleteNumberOfFood,
+    // log out
+    getHomeLogout,
+    //admin
+    getLoginAdmin,
+    handleloginAdmin,
+    gethomeAdmin,
+    getDataFoodAdmin,
+    handleAdminAddToCart,
+    handleAdminDeleteFromCart
 }
