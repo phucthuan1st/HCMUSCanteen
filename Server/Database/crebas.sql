@@ -280,7 +280,6 @@ BEGIN TRANSACTION
 		FETCH NEXT FROM c INTO @tpma, @sl, @tien
 		WHILE @@fetch_status = 0
 		BEGIN
-			PRINT CAST(@tpma  AS NVARCHAR(100))
 			INSERT INTO CHITIETHOADON (HD_MA, TP_MA, CTDH_SOLUONG, CTDH_MA_DONGIA) 
 			VALUES (@HD_ID, @tpma, @sl, @tien)
 			SET @tongtien = @tongtien + @tien
@@ -346,6 +345,36 @@ BEGIN TRANSACTION
 			SET GH_SOLUONG = GH_SOLUONG + 1, GH_TONGTIEN = (GH_SOLUONG + 1) * @GIA
 			WHERE KH_MSSV = @MSSV AND TP_MA = @TP_MA
 		END
+		---------------------------------------------------------------
+		IF (SELECT T.TP_LOAI FROM THUCPHAM t WHERE t.TP_MA = @TP_MA) = N'Đồ nấu'
+			BEGIN
+                IF (SELECT taqn.TAQN_SOLUONGCONLAI FROM THUC_AN_QUA_NAU taqn WHERE taqn.TP_MA = @TP_MA) > 0
+				BEGIN
+					UPDATE THUC_AN_QUA_NAU SET TAQN_SOLUONGCONLAI = TAQN_SOLUONGCONLAI - 1
+					WHERE TP_MA = @TP_MA
+                END
+				ELSE 
+				BEGIN
+					RAISERROR(346, -1, -1, 'THONG TIN KHONG HOP LE');
+					ROLLBACK
+					RETURN
+                END
+            END
+		ELSE
+			BEGIN
+                IF (SELECT m.MH_SOLUONGTON FROM MATHANG m WHERE m.TP_MA = @TP_MA) > 0
+					BEGIN
+						UPDATE MATHANG SET MH_SOLUONGTON = MH_SOLUONGTON - 1
+						WHERE TP_MA = @TP_MA;
+					END
+				ELSE 
+					BEGIN
+						RAISERROR(346, -1, -1, 'THONG TIN KHONG HOP LE');
+						ROLLBACK
+						RETURN
+					END
+
+            END
 	END TRY
 	BEGIN CATCH
 		RAISERROR(377, -1,-1,'LOI THEM VAO GIO HANG')
@@ -433,6 +462,42 @@ BEGIN TRANSACTION
 			ROLLBACK
 			RETURN
 		END
+		DECLARE @TP_MA INT, @soluong INT
+		SELECT @TP_MA = g.TP_MA, @soluong = g.GH_SOLUONG FROM GIOHANG g WHERE g.ID = @GH_ID
+		
+		
+		-----------------------------------------------------------
+		IF (SELECT T.TP_LOAI FROM THUCPHAM t WHERE t.TP_MA = @TP_MA) = N'Đồ nấu'
+			BEGIN
+                IF (SELECT taqn.TAQN_SOLUONGCONLAI FROM THUC_AN_QUA_NAU taqn WHERE taqn.TP_MA = @TP_MA) > 0
+				BEGIN
+					UPDATE THUC_AN_QUA_NAU SET TAQN_SOLUONGCONLAI = TAQN_SOLUONGCONLAI + @soluong
+					WHERE TP_MA = @TP_MA
+                END
+				ELSE 
+				BEGIN
+					RAISERROR(346, -1, -1, 'THONG TIN KHONG HOP LE');
+					ROLLBACK
+					RETURN
+                END
+            END
+		ELSE
+			BEGIN
+                IF (SELECT m.MH_SOLUONGTON FROM MATHANG m WHERE m.TP_MA = @TP_MA) > 0
+					BEGIN
+						UPDATE MATHANG SET MH_SOLUONGTON = MH_SOLUONGTON + @soluong
+						WHERE TP_MA = @TP_MA;
+					END
+				ELSE 
+					BEGIN
+						RAISERROR(346, -1, -1, 'THONG TIN KHONG HOP LE');
+						ROLLBACK
+						RETURN
+					END
+
+            END
+
+		--------------------------------------
 		DELETE dbo.GIOHANG WHERE ID = @GH_ID
 	END TRY
 	BEGIN CATCH
@@ -443,7 +508,6 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
-SELECT h.HD_MA, h.HD_NGAYLAP, h.HD_TONGTIEN FROM HOADON h WHERE h.KH_MSSV = '20120431'
 ------------------------------------------------------
 
 -- BANG THUC PHAM
@@ -945,3 +1009,8 @@ BEGIN TRANSACTION
 	END CATCH
 COMMIT TRANSACTION
 GO
+
+EXEC sp_XulyDangNhap 'NV1', '1'
+SELECT * FROM KHACHHANG k
+SELECT * FROM TAIKHOAN t
+SELECT * FROM GIOHANG g
