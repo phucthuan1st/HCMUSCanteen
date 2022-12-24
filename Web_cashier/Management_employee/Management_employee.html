@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../resert.css">
+    <link rel="stylesheet" href="./Management_employee.css">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <title>MANEGEMENT EMPLOYEE</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <li>
+            <a href="#">Quay lại màn hình thu ngân</a>
+        </li>
+        <li>
+            <a href="#">Lập phiếu nhập hàng</a>
+        </li>
+        <li>
+            <a href="#">Đăng xuất</a>
+        </li>
+    </nav>
+    <section>
+        <div class="container">
+            <div class="introduce">
+                <div class="top">
+                    <div class="left_top">
+                        <div>
+                            <a href="#">
+                                <img src="../images/Frame.png" alt="This is avatar">
+                            </a>
+                        </div>
+                        <div class="btn_management">
+                            <a href="#">Quản lí nhân viên</a>
+                            <a href="#">Quản lí hàng hoá</a>
+                            <a href="#">Quản lí nhập hàng</a>
+                        </div>
+                    </div>
+                    <div class="right_top">
+                        <div class="branch_logo">
+                            <div class="branch">
+                                <span>Căn tin</span>
+                                <span>Trường đại học khoa học tự nhiên</span>
+                            </div>
+                            <img src="../images/logoHCMUS.png" alt="This is logo">
+                        </div>
+                        <div class="time">
+                            <div class="day">
+                                <span>THỨ HAI <span>,</span></span>
+                                <span>Ngày</span>
+                                <span>05/01/2023</span>
+                            </div>
+                            <span>10h03</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="option">
+                    <div>
+                        <span>Nguyễn Phúc Thuần</span>
+                        <span>Quản lí</span>
+                    </div>
+                    <div class="choice">
+                        <a href="#">Danh sách nhân viên</a>
+                        <a href="#">Quản lí ca</a>
+                    </div>
+                </div>
+            </div>
+            <div class="detail">
+                <div class="list_product">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã nhân viên</th>
+                                <th>Tên nhân viên</th>
+                                <th>Giới tính</th>
+                                <th>Số điện thoại</th>
+                                <th>Lương</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>01</th>
+                                <th>Cocacdola 330ml</th>
+                                <th>Nước đóng chai</th>
+                                <th>10.000đ</th>
+                                <th>8.000đ</th>
+                                <th>345</th>
+                                <th><a href="#">
+                                        <i class='fa fa-file-text'></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class='fa fa-trash'></i>
+                                    </a>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="open-button" onclick="openForm()">Thêm nhân viên</button>
+            </div>
+    </section>
+    <div class="form-popup" id="myForm">
+        <form action="#" class="form-container">
+            <h1>Thêm nhân viên</h1>
+            <div>
+                <label for="Name"><b>Tên nhân viên</b>
+                    <input type="text" placeholder="Enter name" name="Name" required>
+                </label>
+
+                <label for="Gender"><b>Giới tínhh</b>
+                    <input type="text" placeholder="Enter gender" name="Gender" required>
+                </label>
+            </div>
+            <div>
+                <label for="Phone_num"><b>Số điện thoại</b>
+                    <input type="text" placeholder="Enter phone number" name="Phone_num" required>
+                </label>
+
+                <label for="Salary"><b>Lương cơ bản</b>
+                    <input type="text" placeholder="Enter phone number" name="Salary" required>
+                </label>
+            </div>
+            <div>
+                <label for="User"><b>Tài khoản</b>
+                    <input type="text" placeholder="Enter user name" name="User" required>
+                </label>
+
+                <label for="Phone_num"><b>Mật khẩu</b>
+                    <input type="password" placeholder="Enter password" name="Phone_num" required>
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="btn">Thêm nhân viên</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
