@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root {
+    --gray: #D0D0D0;
+    --strong_blue: #273E74;
+    --brown: #D67128;
+    --blue: #285CD6;
+    --light_blue: rgba(179, 218, 255, 0.5);
+    --light_brown: rgba(255, 220, 179, 0.5);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+    background-color: var(--gray);
+}
+
+.navbar li a {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--strong_blue);
+}
+
+.navbar li a:hover {
+    cursor: pointer;
+    color: aliceblue;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4rem;
+    margin-top: 1rem;
+}
+
+.offline,
+.online {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    margin: 1rem 0.5rem;
+    border: 1px solid var(--strong_blue);
+}
+
+.offline>span,
+.online>span {
+    width: 100%;
+    padding: 1rem 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.offline>span {
+    background-color: var(--strong_blue);
+}
+
+.online>span {
+    background-color: var(--brown);
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    min-height: 3rem;
+    background-color: var(--light_blue);
+    margin-top: 1rem;
+    box-shadow: 1px 1px 4px var(--gray);
+}
+
+.id_ {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--strong_blue);
+    margin: 1rem;
+}
+
+.detail {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: evenly;
+}
+
+.left_detail {
+    color: #000;
+    font-weight: 700;
+}
+
+.left_detail,
+.right_detail {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 20vh;
+    overflow-x: hidden;
+    align-items: center;
+}
+
+.right_detail>ul>li {
+    list-style-type: disc;
+}
+
+.bottom {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem;
+}
+
+.bottom span {
+    color: var(--strong_blue);
+    font-weight: 700;
+    font-size: 1rem;
+}

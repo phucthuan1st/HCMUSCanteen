@@ -2,6 +2,9 @@ import Connection from "../configs/connectDB";
 import session from 'express-session'
 import { request } from "express";
 
+var NV_info = [];
+var hoaDon = [];
+
 let getHomepage = async (req, res) => {
     //logic
     try {
@@ -26,7 +29,22 @@ let getHomepage = async (req, res) => {
 let getHomeCustomer  = async (req, res) => {
     //logic
     try {
-        let {ID, LOAITK} = req.session;
+        let {ID, LOAITK, MA} = req.session;
+        fetch('http://localhost:1111/api/employee/info', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"MSSV": MA})
+        })
+        .then(response3 => response3.json())
+        .then(response3 => {
+            if(response3["message"] == 1) {
+                NV_info = response3["data"];
+                console.log(NV_info);
+            }
+        })
         if(LOAITK === 'NHANVIEN'.trim()) {
             return res.redirect('/admin');
         }
@@ -234,6 +252,7 @@ let loginUser = async (req, res) => {
     // xu ly dang nhap
     try {
         let {UNAME, PWD} = req.body;
+        console.log(UNAME, PWD);
         fetch('http://localhost:1111/api/login', {
             method: 'POST',
             headers: {
@@ -244,6 +263,7 @@ let loginUser = async (req, res) => {
         })
         .then(response => response.json())
         .then(response => {
+            console.log(response["data"])
             if(response["message"] == 1 && response["data"].length > 0) {
                 const data = response["data"];
                 if(data[0].LOAITK != null){
@@ -442,7 +462,7 @@ let handleloginAdmin = async (req, res) => {
 }
 
 let gethomeAdmin = async (req, res) => {
-    console.log(req.session);
+    
     let {LOAITK, MA} = req.session;
     if (LOAITK === 'ADMIN' || LOAITK === 'NHANVIEN'.trim()) {
         let data = [];
@@ -462,7 +482,6 @@ let gethomeAdmin = async (req, res) => {
                     return element.TP_LOAI === 'Đồ nấu';
                 });
                 // api cart
-                let data2 = [];
                 fetch('http://localhost:1111/api/cart', {
                     method: 'POST',
                     headers: {
@@ -474,10 +493,10 @@ let gethomeAdmin = async (req, res) => {
                 .then(response2 => response2.json())
                 .then(response2 => {
                     if(response2["message"] == 1) {
-                        data2 = response2["data"];
+                        hoaDon = response2["data"];
                         let totalPrice = 0;
-                        data2.forEach(element => { totalPrice += element.GH_TONGTIEN });
-                        return res.render('Web_cashier/Cashier/Cashier_Cook.ejs', {data: data, cart: data2, totalPrice: totalPrice, ma: req.session.MA, ten: req.session.TEN});
+                        hoaDon.forEach(element => { totalPrice += element.GH_TONGTIEN });
+                        return res.render('Web_cashier/Cashier/Cashier_Cook.ejs', {data: data, cart: hoaDon, totalPrice: totalPrice, ma: req.session.MA, ten: NV_info[0].NV_TEN});                                 
                     } else {
                         return res.redirect('/admin/login');
                     }
@@ -512,7 +531,6 @@ let getDataFoodAdmin = async (req, res) => {
                     return element.TP_LOAI === 'Đồ ăn liền';
                 });
                 // api cart
-                let data2 = [];
                 fetch('http://localhost:1111/api/cart', {
                     method: 'POST',
                     headers: {
@@ -524,10 +542,10 @@ let getDataFoodAdmin = async (req, res) => {
                 .then(response2 => response2.json())
                 .then(response2 => {
                     if(response2["message"] == 1) {
-                        data2 = response2["data"];
+                        hoaDon = response2["data"];
                         let totalPrice = 0;
-                        data2.forEach(element => { totalPrice += element.GH_TONGTIEN });
-                        return res.render('Web_cashier/Cashier/Cashier_FastFood.ejs', {data: data, cart: data2, totalPrice: totalPrice,  ma: req.session.MA, ten: req.session.TEN});
+                        hoaDon.forEach(element => { totalPrice += element.GH_TONGTIEN });
+                        return res.render('Web_cashier/Cashier/Cashier_FastFood.ejs', {data: data, cart: hoaDon, totalPrice: totalPrice,  ma: req.session.MA, ten: NV_info[0].NV_TEN});
                     } else {
                         return res.redirect('/admin/login');
                     }
@@ -620,25 +638,19 @@ let handleAdminDeleteFromCart = async (req, res) => {
 }
 
 let gethomeEmployee = async (req, res) => { 
-    let {LOAITK, MA} = req.session;
-    fetch('http://localhost:1111/api/employee/info', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"MSSV": MA})
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response["message"] == 1) {
-            let data = response["data"];
-            return res.render('Web_cashier/Nhân viên/Thông tin tổng.ejs', {data: data});
-        } else {
-            return res.redirect('/admin');
-        }
-    })
+    let {LOAITK} = req.session;
+    if(LOAITK === 'NHANVIEN'){
+        return res.render('Web_cashier/Nhân viên/Thông tin tổng.ejs', {data: NV_info});  
+    }
+    else if(LOAITK === 'ADMIN'){
+        return res.render('Web_cashier/Quản lí/Thông tin tổng_admin.ejs', {data: NV_info}); 
+    }
 }
+
+let getStack = async (req, res) => { 
+    
+    return res.render('Web_cashier/Màn hình chế biến/Màn hình chế biến.ejs', {data: NV_info});  
+}    
 
 let getGoods = async (req, res) => {
     fetch('http://localhost:1111/api/goods', {
@@ -659,6 +671,11 @@ let getGoods = async (req, res) => {
         }
     })
 }
+let acceptPayment = async(req, res) => {
+    let totalPrice = 0;
+    hoaDon.forEach(element => { totalPrice += element.GH_TONGTIEN });
+    return res.render('Web_cashier/Thanh toán/Thanh_toán.ejs', {cart: hoaDon, totalPrice: totalPrice});
+}
 
 let handleAdminPayment = async (req, res) => {
     try {
@@ -675,8 +692,10 @@ let handleAdminPayment = async (req, res) => {
             })
             .then(response => response.json())
             .then(response => {
+                let totalPrice = 0;
+                hoaDon.forEach(element => { totalPrice += element.GH_TONGTIEN });
                 if(response["message"] == 1) {
-                    return res.render('img.ejs', {data: data});
+                    return res.redirect('/admin');
                 } else {
                     return res.redirect('/');
                 }
@@ -691,6 +710,9 @@ let handleAdminPayment = async (req, res) => {
     } catch (error) {
          console.log("ERROR: ", error);
     }
+}
+let importReceipt = async(req, res) => {
+    return res.render('Web_cashier/Lập phiếu nhập/Lap_phieu_nhap.ejs', {ten: NV_info[0].NV_TEN});
 }
 
 module.exports = {
@@ -724,9 +746,11 @@ module.exports = {
     getDataFoodAdmin,
     handleAdminAddToCart,
     handleAdminDeleteFromCart,
+    acceptPayment,
     handleAdminPayment,
-
+    importReceipt,
     //employee
     gethomeEmployee,
+    getStack,
     getGoods
 }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/resert.css">
+    <link rel="stylesheet" href="/css/Thanh toán.css">
+    <link rel="icon" type="image/x-icon" href="/img/Resources/favicon.ico">
+    <title>PAYMENT</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <li>
+            <a href="/admin">Quay lại màn hình thu ngân</a>
+        </li>
+        <li>
+            <a href="/stack">Chế biến</a>
+        </li>
+        <li>
+            <a href="/logout">Đăng xuất</a>
+        </li>
+    </nav>
+    <section>
+        <div class="container">
+            <div class="top">
+                <div class="left_top">
+                    <img src="/img/Resources/logoHCMUS.png" alt="This is logo">
+                    <div class="branch">
+                        <span>Căn tin</span>
+                        <span>Trường đại học khoa học tự nhiên</span>
+                    </div>
+                </div>
+                <div class="right_top">
+                    <div class="day">
+                        <span>THỨ HAI <span>,</span></span>
+                        <span>Ngày</span>
+                        <span>05/01/2023</span>
+                    </div>
+                    <span>10h03</span>
+                </div>
+            </div>
+            <div class="order">
+                <div class="top_order">
+                    <div class="title_top_order">
+                        <span>THÔNG TIN HÓA ĐƠN</span>
+                    </div>
+                    <div class="chosen " style="overflow-y: scroll;">
+                        <% for(let i = 0; i < cart.length; i++) {%>
+                        <div class="food_chosen">
+                            <div class="top_food_chosen">
+                                <div>
+                                    <span><%= cart[i].TP_TEN%></span>
+                                </div>
+                            </div>
+                            <div class="bottom_food_chosen">
+                                <span>x<%= cart[i].GH_SOLUONG%></span>
+                                <span><%= cart[i].GH_TONGTIEN%></span>
+                            </div>
+                        </div>
+                        <% } %>
+
+                    </div>
+                    <div class="total_price">
+                        <span>Tổng:</span>
+                        <span><%= totalPrice %></span>
+                    </div>
+                </div>
+                <div class="bottom_order">
+                    <div class="btn_pay">
+                        <form action="/admin/accept-payment" method="post">
+                            <button>Thanh toán</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+
+</html>

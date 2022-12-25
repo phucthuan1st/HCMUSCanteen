@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/resert.css">
+    <link rel="stylesheet" href="/css/Thông tin tổng_admin.css">
+    <link rel="icon" type="image/x-icon" href="/img/Resources/favicon.ico">
+    <title>MANAGER</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <li>
+            <a href="/admin">Quay lại màn hình thu ngân</a>
+        </li>
+        <li>
+            <a href="/import-receipt">Lập phiếu nhập hàng</a>
+        </li>
+        <li>
+            <a href="/logout">Đăng xuất</a>
+        </li>
+    </nav>
+    <section>
+        <div class="container">
+            <div class="introduce">
+                <div class="top">
+                    <div class="left_top">
+                        <div>
+                            <a href="#">
+                                <img src="/img/Resources/Frame.png" alt="This is avatar">
+                            </a>
+                        </div>
+                        <div class="btn_management">
+                            <a href="#">Quản lí nhân viên</a>
+                            <a href="/employee/goods">Quản lí hàng hoá</a>
+                            <a href="#">Quản lí nhập hàng</a>
+                        </div>
+                    </div>
+                    <div class="right_top">
+                        <div class="branch_logo">
+                            <div class="branch">
+                                <span>Căn tin</span>
+                                <span>Trường đại học khoa học tự nhiên</span>
+                            </div>
+                            <img src="/img/Resources/logoHCMUS.png" alt="This is logo">
+                        </div>
+                        <div class="time">
+                            <div class="day">
+                                <span>THỨ HAI <span>,</span></span>
+                                <span>Ngày</span>
+                                <span>05/01/2023</span>
+                            </div>
+                            <span>10h03</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="option">
+                    <div>
+                        <span><%= data[0].NV_TEN%></span>
+                        <span>Quản lý</span>
+                    </div>
+                    <div class="choice">
+                        <a href="#">Thông tin tổng</a>
+                        <a href="#">Thông tin ca làm</a>
+                        <a href="#">
+                            <span>Thông tin tháng làm</span>
+                            <div class="month">
+                                <span> <span>(</span> Tháng </span>
+                                <span>01<span>/</span></span>
+                                <span>2023 <span>)</span></span>
+                            </div>
+                        </a>
+                        <a href="#">Thông báo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="detail">
+                <div>
+                    <label> Họ tên:
+                        <span><%= data[0].NV_TEN%></span>
+                    </label>
+                    <label> Giới tính:
+                        <span><%= data[0].NV_GIOTINH %></span>
+                    </label>
+                    <label> Ngày sinh:
+                        <span>04/06/2002</span>
+                    </label>
+                    <label> Vị trí:
+                        <span>Quản lý</span>
+                    </label>
+                    <label> Mã nhân viên:
+                        <span>20120003</span>
+                    </label>
+                    <label> Mật khẩu:
+                        <span>********
+                        </span>
+                        <span>(Cấp quản lý)</span>
+                    </label>
+                </div>
+                <div>
+                    <label>Ngày bắt đầu làm:
+                        <span>01/12/2022</span>
+                    </label>
+                    <label>Tổng số ca đăng ký:
+                        <span>21</span>
+                    </label>
+                    <label>Tổng số giờ công:
+                        <span>73 giờ 13 phút</span>
+                    </label>
+                    <label>
+                        <label>
+                            <label>Số ca vắng:
+                                <span>3</span>
+                            </label>
+                            <label>Có phép:
+                                <span>3</span>
+                            </label>
+                        </label>
+                    </label>
+                    <label> Kỷ luật:
+                        <span>Rất tốt</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

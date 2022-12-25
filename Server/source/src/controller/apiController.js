@@ -4,7 +4,7 @@ import session from 'express-session';
 let getFood = async(req, res) => {
     try {
         await Connection.connect();
-        Connection.request().query(`SELECT TP_MA, TP_TEN, TP_LOAI, TP_GIA, TP_IMGPATH FROM dbo.THUCPHAM`, (err, result) => {
+        Connection.request().query(`SELECT TP_MA, TP_TEN, TP_LOAI, TP_GIA FROM dbo.THUCPHAM`, (err, result) => {
             if (err) {
                 console.log(err);
                 return res.status(400).json({
@@ -28,10 +28,10 @@ let handleLogin = async(req, res) => {
     try {
         let { UNAME, PWD } = req.body;
         if (UNAME && PWD) {
+            console.log(UNAME, PWD);
             await Connection.connect();
             Connection.request().query(`EXEC sp_XulyDangNhap '${UNAME}', '${PWD}'`, (err, result) => {
                 if (err) {
-                    console.log(err);
                     return res.status(200).json({
                         message: "0", //True
                     });
@@ -116,20 +116,23 @@ let handleAddToCart = async(req, res) => {
     try {
         let { TP_MA, MSSV } = req.body;
         if (TP_MA && MSSV) {
+            console.log(TP_MA);
             await Connection.connect();
             Connection.request().query(`EXEC dbo.sp_themVaoGioHang @TP_MA = ${TP_MA}, @MSSV = ${MSSV}`, (err) => {
                 if (err) {
-                    console.log(err);
+                    
                     return res.status(400).json({
                         message: "0", //True
                     });
                 } else {
+                    console.log(err);
                     return res.status(200).json({
                         message: "1", //True
                     });
                 }
             })
         } else {
+            console.log(err);
             return res.status(200).json({
                 message: "-1", //True
             });

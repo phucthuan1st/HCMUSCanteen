@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/resert.css">
+    <link rel="stylesheet" href="/css/Lap_phieu_nhap.css">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <title>PRODUCT</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <li>
+            <a href="/employee">Quay lại</a>
+        </li>
+        <li>
+            <a href="/logout">Đăng xuất</a>
+        </li>
+    </nav>
+    <section>
+        <div class="container">
+            <div class="top">
+                <div class="left_top">
+                    <img src="/img/Resources/logoHCMUS.png" alt="This is logo">
+                    <div class="branch">
+                        <span>Căn tin</span>
+                        <span>Trường đại học khoa học tự nhiên</span>
+                    </div>
+                </div>
+                <div class="right_top">
+                    <div class="day">
+                        <span>THỨ HAI <span>,</span></span>
+                        <span>Ngày</span>
+                        <span>05/01/2023</span>
+                    </div>
+                    <span>10h03</span>
+                </div>
+            </div>
+            <div class="detail">
+                <span>LẬP PHIẾU NHẬP HÀNG</span>
+                <div class="info">
+                    <div class="left_info">
+                        <label for="name_prod">Nhân viên nhập:
+                            <input for="name_prod" type="text" placeholder="Tên hàng hoá" value="<%= ten %>">
+                        </label>
+                        <label for="date"> Ngày lập phiếu: <input name="date" type="date">
+                        </label>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <span>Danh sách hàng nhập:</span>
+                </div>
+                <div class="list_product">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên hàng hoá</th>
+                                <th>Loại</th>
+                                <th>Đơn vị</th>
+                                <th>Số lượng</th>
+                                <th>Nhập từ</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>01</th>
+                                <th>Cocacola 330ml</th>
+                                <th>Nước đóng chai</th>
+                                <th>Chai</th>
+                                <th>350</th>
+                                <th>Pepsico</th>
+                                <th><a href="#">
+                                        <i class='fa fa-file-text'></i>
+                                    </a></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="fill">
+                    <button>Xác nhận</button>
+                    <button>Hủy</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
